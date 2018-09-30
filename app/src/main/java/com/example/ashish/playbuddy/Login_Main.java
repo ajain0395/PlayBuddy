@@ -26,9 +26,10 @@ public class Login_Main extends AppCompatActivity  implements GoogleApiClient.On
     public static GoogleSignInAccount account;
     public static SignInButton signInButton;
 
-    public static final String TAG = "Sign in";
+
      public static final int RC_SIGN_IN = 03;
 
+    public static final String TAG = "Sign in";
      void indusLog(String message)
      {
          Log.i("MainActivity",message);
