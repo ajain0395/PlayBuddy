@@ -1,10 +1,13 @@
 package com.example.ashish.playbuddy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -22,11 +25,56 @@ import android.widget.Toast;
 public class AdminActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    public static final String LOGTAG = "AdminActivity";
+    void indusLog(String message)
+    {
+        Log.i(LOGTAG,message);
+    }
+
+    void indusToast(Context context, String message)
+    {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
+        indusLog(message);
+    }
+
+
     TextView name ,email;
     ImageView dp;
     String name_r,email_r;
     Uri dp_r;
     int level;
+
+    void user()
+    {
+        NavigationView sidebar = findViewById(R.id.nav_view);
+        sidebar.getMenu().clear();
+        sidebar.inflateMenu(R.menu.useractivitymenu);
+        indusToast(this,"User Activity Entry");
+
+    }
+
+    void admin()
+    {
+
+        indusToast(this,"Admin Activity Entry");
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment frag = fm.findFragmentById(R.id.adminfragment);
+
+      //crash begin
+       /* if (frag == null) {
+            indusLog("fragment is  null");
+            frag = new AdminSportFrag();
+            fm.beginTransaction()
+                    .add(R.id.adminfragment, frag)
+                    .commit();
+        }*/
+        //crash end
+        indusLog("after inflating");
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,16 +127,14 @@ public class AdminActivity extends AppCompatActivity
 
 
         if(level == 2) {
-
-            NavigationView sidebar = findViewById(R.id.nav_view);
-            sidebar.getMenu().clear();
-            sidebar.inflateMenu(R.menu.useractivitymenu);
-            Toast.makeText(this, "User Activity Entry", Toast.LENGTH_SHORT).show();
-        }
+                    user();
+               }
         else
         {
-            Toast.makeText(this, "Admin Activity Entry", Toast.LENGTH_SHORT).show();
+
+            admin();
         }
+
 
     }
 
