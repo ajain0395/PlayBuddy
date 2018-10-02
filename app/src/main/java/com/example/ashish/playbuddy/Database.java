@@ -12,7 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Database {
 
     private DatabaseReference myDatabase;
-    String newsId;
+    String id;
 
     public Database() {
 
@@ -20,17 +20,30 @@ public class Database {
 
     }
 
-    public void writeNews( String title, String description) {
-       newsId=myDatabase.push().getKey();
+    public void write(Object obj,String databaseName)
+    {
+        id=myDatabase.push().getKey();
+
+        if(databaseName=="news")
+        {
+            News news=(News) obj;
+            news.setNews_id(id);
+        }
+
+        myDatabase.child(databaseName).child(id).setValue(obj);
+
+    }
+    /*public void writeNews( String title, String description) {
+       id=myDatabase.push().getKey();
         News news=new News(title,description);
         news.setNews_id(newsId);
 
         myDatabase.child("news").child(newsId).setValue(news);
-    }
+    }*/
 
     public void readNews()
     {
-        myDatabase.child("news").child(newsId).addValueEventListener(new ValueEventListener() {
+        myDatabase.child("news").child(id).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

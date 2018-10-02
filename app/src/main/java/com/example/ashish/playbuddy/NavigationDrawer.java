@@ -31,7 +31,9 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
-public class NavigationDrawer extends AppCompatActivity {
+public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag.OnFragmentInteractionListener ,frag_contact_us.OnFragmentInteractionListener,farg_about_us.OnFragmentInteractionListener
+
+{
 
     public static final String LOGTAG = "indus";
     String accountName, accountEmail;
@@ -144,6 +146,7 @@ public class NavigationDrawer extends AppCompatActivity {
                                 break;
                             case 2:
                                 indusLog("admin news");
+                                fr=new AdminNewsFrag();
                                 break;
                             case 3:
                                 indusLog("admin events");
@@ -221,9 +224,11 @@ public class NavigationDrawer extends AppCompatActivity {
                                 break;
 
                             case 5:
+                                fr=new farg_about_us();
                                 indusLog("about us");
                                 break;
                             case 6:
+                                fr=new frag_contact_us();
                                 indusLog("contact us");
                                 break;
 
@@ -237,10 +242,9 @@ public class NavigationDrawer extends AppCompatActivity {
                                 indusToast(NavigationDrawer.this,"User Wrong Request");
                                 break;
                         }
-                        FragmentManager fm = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        // fragmentTransaction.replace(R.id.frame_container, );
-                        // fragmentTransaction.commit();
+                        if(fr!=null) {
+                            fragmentCall(fr);
+                        }
                         return false;
                     }
                 }).withSavedInstance(savedInstanceState).build();
@@ -282,7 +286,12 @@ public class NavigationDrawer extends AppCompatActivity {
     {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_container, fr);
+        fragmentTransaction.replace(R.id.frame_container, fr).addToBackStack(fr.getClass().getName());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
