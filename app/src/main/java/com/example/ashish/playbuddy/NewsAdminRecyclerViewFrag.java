@@ -1,10 +1,15 @@
 package com.example.ashish.playbuddy;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,6 +31,8 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     private List<String> newsList = new ArrayList<>();
     private RecyclerView recyclerView;
     private MyAdapter mAdapter;
+    FloatingActionButton addNews;
+    public static String title,description;
 
     //////
     private OnFragmentInteractionListener mListener;
@@ -49,7 +57,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Log.i("TAG","passed layout 0");
@@ -57,6 +65,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 
 
         recyclerView = mview.findViewById(R.id.recycler_view);
+        addNews=mview.findViewById(R.id.addNews);
 
         mAdapter = new MyAdapter(newsList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -75,6 +84,17 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 
             public void onClick(View view, int position) {
                 String news = newsList.get(position);
+
+                title = new String(news);
+
+
+                AdminNewsFrag fr = new AdminNewsFrag();
+
+                FragmentManager fm = getFragmentManager();
+
+                fm.beginTransaction().replace(R.id.frame_container,fr).addToBackStack(fr.getClass().getName()).commit();
+
+
                 Toast.makeText(getActivity(), news + "", Toast.LENGTH_SHORT).show();
             }
 
@@ -82,6 +102,29 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 
             }
         }));
+
+        addNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                title = new String("");
+                description = new String("");
+
+
+                AdminNewsFrag fr = new AdminNewsFrag();
+
+                FragmentManager fm = getFragmentManager();
+
+                fm.beginTransaction().replace(R.id.frame_container,fr).addToBackStack(fr.getClass().getName()).commit();
+
+                /* Intent intent=new Intent(getActivity(),AdminNewsFrag.class);
+                intent.putExtra("title","");
+                intent.putExtra("description","");
+                intent.putExtra("flag",1);
+                startActivity(intent);*/
+                //getActivity().finish();
+            }
+        });
 
 
         return mview;
@@ -145,6 +188,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
 
     @Override
     public void onDetach() {

@@ -40,10 +40,19 @@ public class AdminNewsFrag extends Fragment {
         // Inflate the layout for this fragment
         View rootview=inflater.inflate(R.layout.fragment_admin_news, container, false);
         title=rootview.findViewById(R.id.title);
+       // title.setText(NewsAdminRecyclerViewFrag.title.toLowerCase());
+
         description=rootview.findViewById(R.id.description);
+       // description.setText(NewsAdminRecyclerViewFrag.description);
         save=rootview.findViewById(R.id.save);
         cancel=rootview.findViewById(R.id.cancle);
-        //remove=rootview.findViewById(R.id.remove);
+        remove=rootview.findViewById(R.id.remove);
+
+        if(!NewsAdminRecyclerViewFrag.title.equals(""))
+        {
+            remove.setVisibility(View.VISIBLE);
+            //fill here
+        }
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override

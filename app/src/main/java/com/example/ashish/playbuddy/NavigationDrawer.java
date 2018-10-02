@@ -31,7 +31,7 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
-public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag.OnFragmentInteractionListener ,frag_contact_us.OnFragmentInteractionListener,farg_about_us.OnFragmentInteractionListener
+public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag.OnFragmentInteractionListener ,frag_contact_us.OnFragmentInteractionListener,farg_about_us.OnFragmentInteractionListener,NewsAdminRecyclerViewFrag.OnFragmentInteractionListener
 
 {
 
@@ -146,7 +146,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 break;
                             case 2:
                                 indusLog("admin news");
-                                fr=new AdminNewsFrag();
+                                fr=new NewsAdminRecyclerViewFrag();
                                 break;
                             case 3:
                                 indusLog("admin events");

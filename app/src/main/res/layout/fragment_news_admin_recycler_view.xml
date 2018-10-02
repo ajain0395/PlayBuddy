@@ -31,6 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/upperlayout">
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addNews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
