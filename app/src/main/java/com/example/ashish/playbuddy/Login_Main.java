@@ -94,7 +94,7 @@ public class Login_Main extends AppCompatActivity  implements GoogleApiClient.On
         {
 
             //admin part
-            Intent nt =  new Intent(this,AdminActivity.class);
+            Intent nt =  new Intent(this,NavigationDrawer.class);
             nt.putExtra("name",account.getDisplayName());
             nt.putExtra("email",account.getEmail());
             nt.putExtra("dp",account.getPhotoUrl());
@@ -102,9 +102,9 @@ public class Login_Main extends AppCompatActivity  implements GoogleApiClient.On
             startActivity(nt);
             finish();
         }
-        else if(account.getEmail().endsWith("@iiitd.ac.in") || account.getEmail().equalsIgnoreCase("ashishjain030495@gmail.com") || account.getEmail().equalsIgnoreCase("vikascsepandey@gmail.com") || account.getEmail().equalsIgnoreCase("sarosh.coer@gmail.com")) {
+        else if(account.getEmail().endsWith("@iiitd.ac.in") || account.getEmail().equalsIgnoreCase("ashishjain030495@gmail.com") || account.getEmail().equalsIgnoreCase("vikascsepandey@gmail.com") || account.getEmail().equalsIgnoreCase("saroshhasan14@gmail.com")) {
             //user part
-            Intent nt = new Intent(this, AdminActivity.class);
+            Intent nt = new Intent(this, NavigationDrawer.class);
             nt.putExtra("name", account.getDisplayName());
             nt.putExtra("email", account.getEmail());
             nt.putExtra("dp", account.getPhotoUrl());
@@ -143,7 +143,7 @@ public class Login_Main extends AppCompatActivity  implements GoogleApiClient.On
         if(logouttoken == 1)
         {
             mGoogleSignInClient.revokeAccess();
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

@@ -23,6 +23,22 @@
           }
         },
         {
+          "client_id": "516875773807-1v39e18mb5i4ldi3702488q9oir4bi20.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ashish.playbuddy",
+            "certificate_hash": "4482c3db40f469eb886753a8fb49402332154687"
+          }
+        },
+        {
+          "client_id": "516875773807-opif9lgve93atcigjdgf520cgk9o3h1l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ashish.playbuddy",
+            "certificate_hash": "fb72901f5e01da851cfabd6ba104ad14dcaa85c0"
+          }
+        },
+        {
           "client_id": "516875773807-gf7b1c43r8aonjn5vti9j664lhqbqdk5.apps.googleusercontent.com",
           "client_type": 3
         }
