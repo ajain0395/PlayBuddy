@@ -24,18 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--
-            <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        -->
-        <!--.Login_Main
-            <activity
-            android:name=".AdminActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_admin"
-            android:theme="@style/AppTheme.NoActionBar" />
-        -->
+
         <activity android:name=".NavigationDrawer"
             android:label="@string/title_activity_admin"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
