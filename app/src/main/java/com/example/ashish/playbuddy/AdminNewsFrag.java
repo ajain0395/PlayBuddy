@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,9 +49,13 @@ public class AdminNewsFrag extends Fragment {
         cancel=rootview.findViewById(R.id.cancle);
         remove=rootview.findViewById(R.id.remove);
 
-        if(!NewsAdminRecyclerViewFrag.title.equals(""))
+
+        if(NewsAdminRecyclerViewFrag.selectedNews !=null)
         {
-            remove.setVisibility(View.VISIBLE);
+          //  remove.setVisibility(View.VISIBLE);
+            save.setVisibility(View.INVISIBLE);
+            title.setText(NewsAdminRecyclerViewFrag.selectedNews.getTitle());
+            description.setText(NewsAdminRecyclerViewFrag.selectedNews.getDescription());
             //fill here
         }
 
@@ -67,8 +72,9 @@ public class AdminNewsFrag extends Fragment {
                 {
                     News news=new News(heading,desc);
                     db.write(news, "news");
-
+                    callNewsAdminRecyclerViewFrag();
                 }
+
 
             }
         });
@@ -78,11 +84,23 @@ public class AdminNewsFrag extends Fragment {
             public void onClick(View view) {
                 title.setText(null);
                 description.setText(null);
+                NewsAdminRecyclerViewFrag.selectedNews=null;
+                callNewsAdminRecyclerViewFrag();
 
             }
         });
 
         return rootview;
+    }
+
+    void callNewsAdminRecyclerViewFrag()
+    {
+        NewsAdminRecyclerViewFrag fr=new NewsAdminRecyclerViewFrag();
+
+        FragmentManager fm = getFragmentManager();
+
+        fm.beginTransaction().replace(R.id.frame_container,fr).addToBackStack(fr.getClass().getName()).commit();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -109,16 +127,7 @@ public class AdminNewsFrag extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

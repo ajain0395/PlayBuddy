@@ -28,11 +28,13 @@ import java.util.List;
 public class NewsAdminRecyclerViewFrag extends Fragment {
 
   //  my code
-    private List<String> newsList = new ArrayList<>();
+    public  List<News>  newsList = new ArrayList <>();
     private RecyclerView recyclerView;
     private MyAdapter mAdapter;
     FloatingActionButton addNews;
+    public static News selectedNews;
     public static String title,description;
+    Database db;
 
     //////
     private OnFragmentInteractionListener mListener;
@@ -63,11 +65,14 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
         Log.i("TAG","passed layout 0");
         View mview = inflater.inflate(R.layout.fragment_news_admin_recycler_view, container, false);
 
+        prepareNewsData();
 
         recyclerView = mview.findViewById(R.id.recycler_view);
         addNews=mview.findViewById(R.id.addNews);
 
         mAdapter = new MyAdapter(newsList);
+        mAdapter.notifyDataSetChanged();
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -77,15 +82,13 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 // set the adapter
         recyclerView.setAdapter(mAdapter);
 
-        prepareNewsData();
 
         recyclerView.addOnItemTouchListener(new myRecyclerViewListner(getActivity(), recyclerView, new myRecyclerViewListner.ClickListener() {
 
 
             public void onClick(View view, int position) {
-                String news = newsList.get(position);
+                selectedNews = newsList.get(position);
 
-                title = new String(news);
 
 
                 AdminNewsFrag fr = new AdminNewsFrag();
@@ -95,7 +98,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
                 fm.beginTransaction().replace(R.id.frame_container,fr).addToBackStack(fr.getClass().getName()).commit();
 
 
-                Toast.makeText(getActivity(), news + "", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), news + "", Toast.LENGTH_SHORT).show();
             }
 
             public void onLongClick(View view, int position) {
@@ -131,8 +134,14 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     }
 
     private void prepareNewsData() {
+        db=new Database();
+        db.readNews();
+        if(Database.allNews != null && Database.allNews.size() >0)
+        newsList=Database.allNews;
+      //  Log.i("news",newsList.get(2).title);
 
-        newsList.add(new String("News 1"));
+
+     /*   newsList.add(new String("News 1"));
         newsList.add(new String("News 2"));
         newsList.add(new String("News 3"));
         newsList.add(new String("News 4"));
@@ -165,9 +174,10 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
         newsList.add(new String("News 214"));
         newsList.add(new String("News 215"));
         newsList.add(new String("News 16"));
-        newsList.add(new String("News 217"));
-
+        newsList.add(new String("News 217"));*/
+if (mAdapter!= null)
         mAdapter.notifyDataSetChanged();
+
 
     }
 

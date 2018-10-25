@@ -6,11 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    private List<String> newslist;
+    private List<News> newslist;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
@@ -24,7 +25,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
 
-    public MyAdapter(List<String> moviesList) {
+    public MyAdapter(List<News> moviesList) {
         this.newslist = moviesList;
     }
 
@@ -38,8 +39,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        String movie = newslist.get(position);
-        holder.title.setText(movie);
+        News news = newslist.get(position);
+        holder.title.setText(news.getTitle());
 
         //add data to holder
        // holder.genre.setText(movie.getGenre());
