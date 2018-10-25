@@ -9,10 +9,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class Database {
 
     private DatabaseReference myDatabase;
     String id;
+    public static ArrayList<News> allNews;
 
     public Database() {
 
@@ -41,17 +44,37 @@ public class Database {
         myDatabase.child("news").child(newsId).setValue(news);
     }*/
 
-    public void readNews()
+    /*public static void saveData(ArrayList<News> data)
     {
-        myDatabase.child("news").child(id).addValueEventListener(new ValueEventListener() {
+        NewsAdminRecyclerViewFrag.newsList=data;
+    }*/
 
+    public void readNews()
+    {   //ArrayList<News> alldata;
+
+
+        myDatabase.child("news").addValueEventListener(new ValueEventListener() {
+         ArrayList<News>   data = new ArrayList<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                News news=dataSnapshot.getValue(News.class);
+               // News news=dataSnapshot.getValue(News.class);
+
+                for (DataSnapshot ds:dataSnapshot.getChildren()) {
+
+                    News news=new News();
+                    news.setTitle(ds.getValue(News.class).getTitle());
+                    news.setDescription(ds.getValue(News.class).getDescription());
 
 
+                    //data.add(news.getTitle());
+                       data.add(news);
+        //               Log.i("data", data.get(0).getTitle());
+                }
+                allNews=data;
+          //    Log.i("data", allNews.get(1).title);
 
-            }
+                // alldata = data;
+                }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -60,6 +83,8 @@ public class Database {
 
             }
         });
+
+
     }
 
     public void updateNews(News news)
