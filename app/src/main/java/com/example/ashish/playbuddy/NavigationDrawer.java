@@ -36,7 +36,11 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
 {
 
     public static final String LOGTAG = "indus";
-    String accountName, accountEmail;
+
+
+    String accountName;
+    //email of user
+    public static String accountEmail;
     Uri accountPicture;
     int accountLevel;
     Fragment fr;

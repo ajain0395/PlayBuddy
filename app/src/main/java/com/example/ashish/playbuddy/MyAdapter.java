@@ -25,8 +25,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
 
-    public MyAdapter(List<News> moviesList) {
-        this.newslist = moviesList;
+    public MyAdapter(List<News> news) {
+        this.newslist = news;
     }
 
     @Override

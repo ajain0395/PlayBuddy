@@ -1,43 +1,57 @@
 package com.example.ashish.playbuddy;
 
+import java.util.Date;
+
 public class News {
 
 
-    public String news_id;
-    public String title;
-    public String description;
+    private String newsId;
+    private String newsTitle;
+    private String newsDescription;
+    private Date newsDate;
+   // public String sportsId;
 
     public News()
     {
 
     }
 
-    public News(String title, String description) {
-        this.title = title;
-        this.description = description;
+    public News(String newsTitle, String newsDescription,Date newsDate) {
+        this.newsTitle = newsTitle;
+        this.newsDescription = newsDescription;
+        this.newsDate=newsDate;
+    }
+
+    public void setNewsDate(Date newsDate) {
+        this.newsDate = newsDate;
     }
 
     public String getTitle() {
-        return title;
+        return newsTitle;
     }
+
+    public Date getDate() {
+        return newsDate;
+    }
+
 
     public String getDescription() {
-        return description;
+        return newsDescription;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle(String newsTitle) {
+        this.newsTitle = newsTitle;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String newsDescription) {
+        this.newsDescription = newsDescription;
     }
 
     public String getNews_id() {
-        return news_id;
+        return newsId;
     }
 
-    public void setNews_id(String news_id) {
-        this.news_id = news_id;
+    public void setNews_id(String newsId) {
+        this.newsId = newsId;
     }
 }

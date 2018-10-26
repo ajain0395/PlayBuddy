@@ -6,12 +6,15 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.Date;
 
 
 public class AdminNewsFrag extends Fragment {
@@ -40,11 +43,10 @@ public class AdminNewsFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootview=inflater.inflate(R.layout.fragment_admin_news, container, false);
-        title=rootview.findViewById(R.id.title);
-       // title.setText(NewsAdminRecyclerViewFrag.title.toLowerCase());
 
+        //find elements on view.
+        title=rootview.findViewById(R.id.title);
         description=rootview.findViewById(R.id.description);
-       // description.setText(NewsAdminRecyclerViewFrag.description);
         save=rootview.findViewById(R.id.save);
         cancel=rootview.findViewById(R.id.cancle);
         remove=rootview.findViewById(R.id.remove);
@@ -53,29 +55,52 @@ public class AdminNewsFrag extends Fragment {
         if(NewsAdminRecyclerViewFrag.selectedNews !=null)
         {
           //  remove.setVisibility(View.VISIBLE);
-            save.setVisibility(View.INVISIBLE);
+            //save.setVisibility(View.INVISIBLE);
+            remove.setVisibility(View.VISIBLE);
             title.setText(NewsAdminRecyclerViewFrag.selectedNews.getTitle());
             description.setText(NewsAdminRecyclerViewFrag.selectedNews.getDescription());
+           // Toast.makeText(getActivity(), ""+NewsAdminRecyclerViewFrag.selectedNews.getNews_id(), Toast.LENGTH_SHORT).show();
             //fill here
         }
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String heading=title.getText().toString();
-                String desc=description.getText().toString();
 
-                if(heading.isEmpty() && desc.isEmpty()) {
-                    Toast.makeText(getContext(),"Please fill the fields!!", Toast.LENGTH_SHORT).show();
-                }
-                else
+
+                if(NewsAdminRecyclerViewFrag.selectedNews!=null)
                 {
-                    News news=new News(heading,desc);
-                    db.write(news, "news");
+                    String updatedDesc=description.getText().toString();
+                    String updatedTitle=title.getText().toString();
+                    db.updateNews(NewsAdminRecyclerViewFrag.selectedNews.getNews_id(),updatedDesc,updatedTitle);
+                    Toast.makeText(getContext(), "News Updated Successfully!!"+NewsAdminRecyclerViewFrag.selectedNews.getNews_id(), Toast.LENGTH_SHORT).show();
                     callNewsAdminRecyclerViewFrag();
                 }
 
 
+                else {
+                    String heading = title.getText().toString();
+                    String desc = description.getText().toString();
+
+                    if (heading.length() == 0 && desc.length() == 0) {
+                        Toast.makeText(getContext(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        News news = new News(heading, desc, new Date());
+                        db.write(news, "news");
+                        callNewsAdminRecyclerViewFrag();
+                    }
+                }
+
+            }
+        });
+
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                db.remove(NewsAdminRecyclerViewFrag.selectedNews.getNews_id());
+                Toast.makeText(getContext(), "News Removed Successfully!!", Toast.LENGTH_SHORT).show();
+                callNewsAdminRecyclerViewFrag();
             }
         });
 
@@ -99,7 +124,7 @@ public class AdminNewsFrag extends Fragment {
 
         FragmentManager fm = getFragmentManager();
 
-        fm.beginTransaction().replace(R.id.frame_container,fr).addToBackStack(fr.getClass().getName()).commit();
+        fm.beginTransaction().replace(R.id.frame_container,fr).commit();
 
     }
 
