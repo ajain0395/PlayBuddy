@@ -162,7 +162,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
                 }
                 if(mAdapter!=null)
                 {
-                    indusToast(getContext(),"new news added");
+                    indusToast(getActivity(),"new news added");
                 }
                 mAdapter = new MyAdapter(newsList);
 

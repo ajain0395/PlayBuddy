@@ -73,7 +73,7 @@ public class AdminNewsFrag extends Fragment {
                     String updatedDesc=description.getText().toString();
                     String updatedTitle=title.getText().toString();
                     db.updateNews(NewsAdminRecyclerViewFrag.selectedNews.getNews_id(),updatedDesc,updatedTitle);
-                    Toast.makeText(getContext(), "News Updated Successfully!!"+NewsAdminRecyclerViewFrag.selectedNews.getNews_id(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "News Updated Successfully!!"+NewsAdminRecyclerViewFrag.selectedNews.getNews_id(), Toast.LENGTH_SHORT).show();
                     callNewsAdminRecyclerViewFrag();
                 }
 
@@ -83,7 +83,7 @@ public class AdminNewsFrag extends Fragment {
                     String desc = description.getText().toString();
 
                     if (heading.length() == 0 && desc.length() == 0) {
-                        Toast.makeText(getContext(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
                     } else {
                         News news = new News(heading, desc, new Date());
                         db.write(news, "news");
@@ -99,7 +99,7 @@ public class AdminNewsFrag extends Fragment {
             public void onClick(View view) {
 
                 db.remove(NewsAdminRecyclerViewFrag.selectedNews.getNews_id());
-                Toast.makeText(getContext(), "News Removed Successfully!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "News Removed Successfully!!", Toast.LENGTH_SHORT).show();
                 callNewsAdminRecyclerViewFrag();
             }
         });
