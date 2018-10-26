@@ -41,8 +41,8 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     private MyAdapter mAdapter;
     FloatingActionButton addNews;
     public static News selectedNews;
-    public static String title,description;
-    Database db;
+    //public static String title,description;
+   // Database db;
 
     public static final String LOGTAG = "indus";
     //////
@@ -76,43 +76,12 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
         Log.i("TAG","passed layout 0");
         View mview = inflater.inflate(R.layout.fragment_news_admin_recycler_view, container, false);
 
-       prepareNewsData();
-        //st
-    /*    myDatabase.child("news").addValueEventListener(new ValueEventListener() {
-            ArrayList<News>   data;
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // News news=dataSnapshot.getValue(News.class);
-                data = new ArrayList<>();
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+        //bring data from database.
+         prepareNewsData();
 
-                    News news = new News();
-                    news.setTitle(ds.getValue(News.class).getTitle());
-                    news.setDescription(ds.getValue(News.class).getDescription());
-
-
-                    //data.add(news.getTitle());
-                    data.add(news);
-                    //               Log.i("data", data.get(0).getTitle());
-                }
-                newsList=data;
-                mAdapter = new MyAdapter(newsList);
-               // mAdapter.notifyDataSetChanged();
-                recyclerView.setAdapter(mAdapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                Log.w("error", "Failed to read value.", databaseError.toException());
-
-            }
-        });*/
-        //til
         recyclerView = mview.findViewById(R.id.recycler_view);
         addNews=mview.findViewById(R.id.addNews);
 
-     //   mAdapter = new MyAdapter(newsList);
-       // mAdapter.notifyDataSetChanged();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -120,17 +89,14 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
         Log.i("TAG","passed layout 1");
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-// set the adapter
-       // recyclerView.setAdapter(mAdapter);
-
 
         recyclerView.addOnItemTouchListener(new myRecyclerViewListner(getActivity(), recyclerView, new myRecyclerViewListner.ClickListener() {
 
 
             public void onClick(View view, int position) {
+
+               //selected news from recyclerView
                 selectedNews = newsList.get(position);
-
-
 
                 AdminNewsFrag fr = new AdminNewsFrag();
 
@@ -151,22 +117,12 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
             @Override
             public void onClick(View view) {
 
-                title = new String("");
-                description = new String("");
-
-
                 AdminNewsFrag fr = new AdminNewsFrag();
 
                 FragmentManager fm = getFragmentManager();
 
-                fm.beginTransaction().replace(R.id.frame_container,fr).addToBackStack(fr.getClass().getName()).commit();
+                fm.beginTransaction().replace(R.id.frame_container,fr).commit();
 
-                /* Intent intent=new Intent(getActivity(),AdminNewsFrag.class);
-                intent.putExtra("title","");
-                intent.putExtra("description","");
-                intent.putExtra("flag",1);
-                startActivity(intent);*/
-                //getActivity().finish();
             }
         });
 
@@ -174,6 +130,8 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
         return mview;
     }
 
+
+    //to read data from database and set it to recyclerView Adapter
     private void prepareNewsData() {
 
         myDatabase.child("news").addValueEventListener(new ValueEventListener() {
@@ -186,10 +144,10 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 
                     News news = new News();
                     try {
-
-
+                        news.setNews_id(ds.getValue(News.class).getNews_id());
                         news.setTitle(ds.getValue(News.class).getTitle());
                         news.setDescription(ds.getValue(News.class).getDescription());
+                        news.setNewsDate(ds.getValue(News.class).getDate());
 
                     }
                     catch (Exception e)
@@ -202,9 +160,12 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
                     newsList.add(news);
 
                 }
-
+                if(mAdapter!=null)
+                {
+                    indusToast(getContext(),"new news added");
+                }
                 mAdapter = new MyAdapter(newsList);
-               
+
                 recyclerView.setAdapter(mAdapter);
             }
             @Override
@@ -214,21 +175,6 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 
             }
         });
-//        db=new Database();
-  //      db.readNews();
-
-        //edit code
-
-                //till here
-
-
-             //   if(Database.allNews != null && Database.allNews.size() >0)
-        //newsList=Database.allNews;
-      //  Log.i("news",newsList.get(2).title);
-
-    /*if (mAdapter!= null)
-        mAdapter.notifyDataSetChanged();*/
-
 
     }
 

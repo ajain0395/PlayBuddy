@@ -5,10 +5,10 @@ import java.util.Date;
 public class News {
 
 
-    public String newsId;
-    public String newsTitle;
-    public String newsDescription;
-    public Date newsDate;
+    private String newsId;
+    private String newsTitle;
+    private String newsDescription;
+    private Date newsDate;
    // public String sportsId;
 
     public News()
@@ -20,6 +20,10 @@ public class News {
         this.newsTitle = newsTitle;
         this.newsDescription = newsDescription;
         this.newsDate=newsDate;
+    }
+
+    public void setNewsDate(Date newsDate) {
+        this.newsDate = newsDate;
     }
 
     public String getTitle() {
