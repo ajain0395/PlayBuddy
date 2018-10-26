@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Date;
+
 
 public class AdminNewsFrag extends Fragment {
 
@@ -70,7 +72,7 @@ public class AdminNewsFrag extends Fragment {
                 }
                 else
                 {
-                    News news=new News(heading,desc);
+                    News news=new News(heading,desc,new Date());
                     db.write(news, "news");
                     callNewsAdminRecyclerViewFrag();
                 }

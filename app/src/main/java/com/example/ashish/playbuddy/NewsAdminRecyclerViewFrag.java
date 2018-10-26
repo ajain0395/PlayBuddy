@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +35,8 @@ import java.util.List;
 public class NewsAdminRecyclerViewFrag extends Fragment {
 
   //  my code
-    public  List<News>  newsList = new ArrayList <>();
+  private DatabaseReference myDatabase;
+    public  List<News>  newsList = null;
     private RecyclerView recyclerView;
     private MyAdapter mAdapter;
     FloatingActionButton addNews;
@@ -36,6 +44,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     public static String title,description;
     Database db;
 
+    public static final String LOGTAG = "indus";
     //////
     private OnFragmentInteractionListener mListener;
 
@@ -55,6 +64,8 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("TAG","passed layout created");
+        myDatabase = FirebaseDatabase.getInstance().getReference();
+
 
     }
 
@@ -65,13 +76,43 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
         Log.i("TAG","passed layout 0");
         View mview = inflater.inflate(R.layout.fragment_news_admin_recycler_view, container, false);
 
-        prepareNewsData();
+       prepareNewsData();
+        //st
+    /*    myDatabase.child("news").addValueEventListener(new ValueEventListener() {
+            ArrayList<News>   data;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // News news=dataSnapshot.getValue(News.class);
+                data = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
+                    News news = new News();
+                    news.setTitle(ds.getValue(News.class).getTitle());
+                    news.setDescription(ds.getValue(News.class).getDescription());
+
+
+                    //data.add(news.getTitle());
+                    data.add(news);
+                    //               Log.i("data", data.get(0).getTitle());
+                }
+                newsList=data;
+                mAdapter = new MyAdapter(newsList);
+               // mAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(mAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Log.w("error", "Failed to read value.", databaseError.toException());
+
+            }
+        });*/
+        //til
         recyclerView = mview.findViewById(R.id.recycler_view);
         addNews=mview.findViewById(R.id.addNews);
 
-        mAdapter = new MyAdapter(newsList);
-        mAdapter.notifyDataSetChanged();
+     //   mAdapter = new MyAdapter(newsList);
+       // mAdapter.notifyDataSetChanged();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -80,7 +121,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
 // set the adapter
-        recyclerView.setAdapter(mAdapter);
+       // recyclerView.setAdapter(mAdapter);
 
 
         recyclerView.addOnItemTouchListener(new myRecyclerViewListner(getActivity(), recyclerView, new myRecyclerViewListner.ClickListener() {
@@ -134,49 +175,59 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     }
 
     private void prepareNewsData() {
-        db=new Database();
-        db.readNews();
-        if(Database.allNews != null && Database.allNews.size() >0)
-        newsList=Database.allNews;
+
+        myDatabase.child("news").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                newsList = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    News news = new News();
+                    try {
+
+
+                        news.setTitle(ds.getValue(News.class).getTitle());
+                        news.setDescription(ds.getValue(News.class).getDescription());
+
+                    }
+                    catch (Exception e)
+                    {
+                        indusLog("Exception in fetching from Db");
+                        e.printStackTrace();
+                    }
+
+
+                    newsList.add(news);
+
+                }
+
+                mAdapter = new MyAdapter(newsList);
+               
+                recyclerView.setAdapter(mAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Log.w("error", "Failed to read value.", databaseError.toException());
+
+            }
+        });
+//        db=new Database();
+  //      db.readNews();
+
+        //edit code
+
+                //till here
+
+
+             //   if(Database.allNews != null && Database.allNews.size() >0)
+        //newsList=Database.allNews;
       //  Log.i("news",newsList.get(2).title);
 
-
-     /*   newsList.add(new String("News 1"));
-        newsList.add(new String("News 2"));
-        newsList.add(new String("News 3"));
-        newsList.add(new String("News 4"));
-        newsList.add(new String("News 5"));
-        newsList.add(new String("News 6"));
-        newsList.add(new String("News 7"));
-        newsList.add(new String("News 8"));
-        newsList.add(new String("News 9"));
-        newsList.add(new String("News 10"));
-        newsList.add(new String("News 11"));
-        newsList.add(new String("News 12"));
-        newsList.add(new String("News 13"));
-        newsList.add(new String("News 14"));
-        newsList.add(new String("News 15"));
-        newsList.add(new String("News 16"));
-        newsList.add(new String("News 17"));
-        newsList.add(new String("News 21"));
-        newsList.add(new String("News 22"));
-        newsList.add(new String("News 23"));
-        newsList.add(new String("News 24"));
-        newsList.add(new String("News 25"));
-        newsList.add(new String("News 26"));
-        newsList.add(new String("News 27"));
-        newsList.add(new String("News 28"));
-        newsList.add(new String("News 29"));
-        newsList.add(new String("News 210"));
-        newsList.add(new String("News 211"));
-        newsList.add(new String("News 212"));
-        newsList.add(new String("News 123"));
-        newsList.add(new String("News 214"));
-        newsList.add(new String("News 215"));
-        newsList.add(new String("News 16"));
-        newsList.add(new String("News 217"));*/
-if (mAdapter!= null)
-        mAdapter.notifyDataSetChanged();
+    /*if (mAdapter!= null)
+        mAdapter.notifyDataSetChanged();*/
 
 
     }
@@ -204,6 +255,18 @@ if (mAdapter!= null)
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void indusLog(String message)
+    {
+        Log.i(LOGTAG,message);
+    }
+
+    public  void indusToast(Context context, String message)
+    {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
+        indusLog(message);
     }
 
 

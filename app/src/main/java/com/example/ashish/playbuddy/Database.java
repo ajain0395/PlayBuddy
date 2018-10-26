@@ -89,7 +89,6 @@ public class Database {
 
     public void updateNews(News news)
     {
-
         myDatabase.child("news").child(news.getNews_id()).setValue(news);
     }
 
