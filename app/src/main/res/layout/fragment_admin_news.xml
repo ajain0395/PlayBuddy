@@ -86,7 +86,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:text="Remove"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cancle"
         app:layout_constraintStart_toEndOf="@+id/save"
