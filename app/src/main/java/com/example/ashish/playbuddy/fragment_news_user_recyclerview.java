@@ -1,16 +1,14 @@
 package com.example.ashish.playbuddy;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Movie;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -32,32 +30,21 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-
-public class NewsAdminRecyclerViewFrag extends Fragment {
-
-  //  my code
-  private DatabaseReference myDatabase;
-    public  List<News>  newsList = null;
+public class fragment_news_user_recyclerview extends Fragment {
+    private DatabaseReference myDatabase;
+    public List<News> newsList = null;
     private RecyclerView recyclerView;
     private MyAdapter mAdapter;
-    FloatingActionButton addNews;
     public static News selectedNews;
     //public static String title,description;
-   // Database db;
+    // Database db;
 
     public static final String LOGTAG = "indus";
     //////
-    private OnFragmentInteractionListener mListener;
+    private fragment_news_user_recyclerview.OnFragmentInteractionListener mListener;
 
-    public NewsAdminRecyclerViewFrag() {
+    public fragment_news_user_recyclerview() {
         // Required empty public constructor
-    }
-
-    public static NewsAdminRecyclerViewFrag newInstance(String param1, String param2) {
-        NewsAdminRecyclerViewFrag fragment = new NewsAdminRecyclerViewFrag();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     Comparator<News> cmp = new Comparator<News>() {
@@ -65,6 +52,13 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
             return o2.getNewsDate().compareTo(o1.getNewsDate());
         }
     };
+
+    public static fragment_news_user_recyclerview newInstance(String param1, String param2) {
+        fragment_news_user_recyclerview fragment = new fragment_news_user_recyclerview();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
     @Override
@@ -81,14 +75,12 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
                              Bundle savedInstanceState) {
 
         Log.i("TAG","passed layout 0");
-        View mview = inflater.inflate(R.layout.fragment_news_admin_recycler_view, container, false);
+        final View mview = inflater.inflate(R.layout.fragment_fragment_news_user_recyclerview, container, false);
 
         //bring data from database.
-         prepareNewsData();
+        prepareNewsData();
 
-        recyclerView = mview.findViewById(R.id.recycler_view);
-        addNews=mview.findViewById(R.id.addNews);
-
+        recyclerView = mview.findViewById(R.id.recycler_view_user_news);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -101,37 +93,43 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 
 
             public void onClick(View view, int position) {
-
-               //selected news from recyclerView
+                //selected news from recyclerView
                 selectedNews = newsList.get(position);
-
                 AdminNewsFrag fr = new AdminNewsFrag();
-
                 FragmentManager fm = getFragmentManager();
+                //fm.beginTransaction().replace(R.id.frame_container,fr).commit();
 
-                fm.beginTransaction().replace(R.id.frame_container,fr).commit();
+                /////
+                AlertDialog.Builder showNews = new AlertDialog.Builder(getActivity());
+                showNews.setMessage("\n"
+                        +"Date: "+selectedNews.getNewsDate().getDate()
+                        +"-"+ selectedNews.getNewsDate().getMonth()
+                        +"-"+ selectedNews.getNewsDate().getYear()
+                        +"\nTime: "+ selectedNews.getNewsDate().getHours()
+                        +":"+ selectedNews.getNewsDate().getMinutes()
+                        + "\n\n" +selectedNews.getNewsDescription());
+                showNews.setTitle(selectedNews.getNewsTitle());
+
+                showNews.setNegativeButton(
+                        "Close",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog displayAlert = showNews.create();
+                displayAlert.show();
+
+                ///////
 
 
-               // Toast.makeText(getActivity(), news + "", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), news + "", Toast.LENGTH_SHORT).show();
             }
-
             public void onLongClick(View view, int position) {
 
             }
         }));
-
-        addNews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                AdminNewsFrag fr = new AdminNewsFrag();
-
-                FragmentManager fm = getFragmentManager();
-
-                fm.beginTransaction().replace(R.id.frame_container,fr).commit();
-
-            }
-        });
 
 
         return mview;
@@ -170,7 +168,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
                 newsList.sort(cmp);
                 if(mAdapter!=null)
                 {
-          //          indusToast(getActivity(),"new news added");
+                    //          indusToast(getActivity(),"new news added");
                 }
                 mAdapter = new MyAdapter(newsList);
 
@@ -196,8 +194,8 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof fragment_news_user_recyclerview.OnFragmentInteractionListener) {
+            mListener = (fragment_news_user_recyclerview.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -223,9 +221,9 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
         indusLog(message);
     }
 
-
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

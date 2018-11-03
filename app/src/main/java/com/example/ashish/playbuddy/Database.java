@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +44,7 @@ public class Database {
         Map<String,Object> taskMap = new HashMap<String, Object>();
         taskMap.put("newsDescription", newsDescription);
         taskMap.put("newsTitle",newsTitle);
+        taskMap.put("newsDate",new Date());
         if(newsId!=null) {
             myDatabase.child("news").child(newsId).updateChildren(taskMap);
         }
