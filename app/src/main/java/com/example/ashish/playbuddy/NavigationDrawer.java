@@ -97,8 +97,9 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
         if (accountLevel == 1) {
 
             admin(toolbar, savedInstanceState);
-            //fr=new AdminSportFrag();
-           // fragmentCall(fr);
+            fr=new AdminSportRecyclerViewFrag();
+            fragmentCall(fr);
+
 
         } else {
             user(toolbar, savedInstanceState);
@@ -151,7 +152,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 break;
                             case 2:
                                 indusLog("admin add venue");
-
+                                fr=new AdminVenueFragment();
                                 break;
 
                             case 3:

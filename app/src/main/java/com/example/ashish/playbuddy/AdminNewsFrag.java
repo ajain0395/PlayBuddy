@@ -20,9 +20,9 @@ import java.util.Date;
 public class AdminNewsFrag extends Fragment {
 
     //xml elemets
-    Button save,cancel,remove;
-    EditText title,description;
-    Database db;
+  private   Button save,cancel,remove;
+    private EditText title,description;
+    private Database db;
 
 
     private OnFragmentInteractionListener mListener;
