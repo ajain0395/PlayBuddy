@@ -146,7 +146,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                         switch (position) {
                             case 1:
                                 indusLog("admin sports");
-                               // fr=new AdminSportFrag();
+                                fr=new AdminSportRecyclerViewFrag();
                                 break;
                             case 2:
                                 indusLog("admin news");
@@ -194,7 +194,8 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Interest"),
 
-                        new PrimaryDrawerItem().withName("News/Events"),
+                        new PrimaryDrawerItem().withName("News"),
+                        new PrimaryDrawerItem().withName("Events"),
                         new PrimaryDrawerItem().withName("Play Area"),
                         new PrimaryDrawerItem().withName("Find Buddy"),
                         new SecondaryDrawerItem().withName("About us"),
@@ -290,7 +291,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
     {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_container, fr).addToBackStack(fr.getClass().getName());
+        fragmentTransaction.replace(R.id.frame_container, fr);
         fragmentTransaction.commit();
     }
 
