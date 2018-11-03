@@ -17,7 +17,7 @@ import java.util.Map;
 public class Database {
 
     private DatabaseReference myDatabase;
-    String id;
+    String newsId;
     public static ArrayList<News> allNews;
 
     public Database() {
@@ -28,27 +28,23 @@ public class Database {
 
     public void write(Object obj,String databaseName)
     {
-        id=myDatabase.push().getKey();
+        newsId=myDatabase.push().getKey();
 
         if(databaseName=="news")
         {
             News news=(News) obj;
-            news.setNews_id(id);
+            news.setNewsId(newsId);
         }
-
-        myDatabase.child(databaseName).child(id).setValue(obj);
-
+        myDatabase.child(databaseName).child(newsId).setValue(obj);
     }
 
-
-
-    public void updateNews(String id,String description,String title)
+    public void updateNews(String newsId,String newsDescription,String newsTitle)
     {
         Map<String,Object> taskMap = new HashMap<String, Object>();
-        taskMap.put("newsDescription", description);
-        taskMap.put("newsTitle",title);
-        if(id!=null) {
-            myDatabase.child("news").child(id).updateChildren(taskMap);
+        taskMap.put("newsDescription", newsDescription);
+        taskMap.put("newsTitle",newsTitle);
+        if(newsId!=null) {
+            myDatabase.child("news").child(newsId).updateChildren(taskMap);
         }
         else
         {
@@ -56,11 +52,11 @@ public class Database {
         }
     }
 
-    public void remove(String id)
+    public void remove(String newsId)
     {
 
-        if(id!=null) {
-            myDatabase.child("news").child(id).removeValue();
+        if(newsId!=null) {
+            myDatabase.child("news").child(newsId).removeValue();
         }
         else
         {

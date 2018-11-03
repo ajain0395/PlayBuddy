@@ -29,17 +29,32 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
+        android:layout_marginTop="20dp"
         app:layout_goneMarginTop="20dp"
         app:layout_goneMarginEnd="20dp"
         app:layout_goneMarginStart="20dp"
+        android:ems="10"
         android:inputType="textPersonName"
         android:hint="Enter Title"
         app:layout_constraintTop_toBottomOf="@id/heading"
-        app:layout_constraintBottom_toTopOf="@id/description"
+        app:layout_constraintBottom_toTopOf="@id/sportlist"
         />
 
+
+    <Spinner
+        android:id="@+id/sportlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog"
+        app:layout_constraintBottom_toTopOf="@id/description"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        tools:layout_editor_absoluteX="8dp" />
 
     <EditText
         android:id="@+id/description"
@@ -48,16 +63,15 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:inputType="textCapSentences|textMultiLine"
-        android:maxLines="10"
-
         app:layout_goneMarginTop="20dp"
         app:layout_goneMarginEnd="20dp"
         app:layout_goneMarginStart="20dp"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="10"
         android:scrollbars="vertical"
         android:hint="Enter Description"
         app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/sportlist"
         app:layout_constraintBottom_toTopOf="@id/buttonslayoutaddnews"
         />
 

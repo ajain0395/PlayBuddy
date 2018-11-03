@@ -57,8 +57,8 @@ public class AdminNewsFrag extends Fragment {
           //  remove.setVisibility(View.VISIBLE);
             //save.setVisibility(View.INVISIBLE);
             remove.setVisibility(View.VISIBLE);
-            title.setText(NewsAdminRecyclerViewFrag.selectedNews.getTitle());
-            description.setText(NewsAdminRecyclerViewFrag.selectedNews.getDescription());
+            title.setText(NewsAdminRecyclerViewFrag.selectedNews.getNewsTitle());
+            description.setText(NewsAdminRecyclerViewFrag.selectedNews.getNewsDescription());
            // Toast.makeText(getActivity(), ""+NewsAdminRecyclerViewFrag.selectedNews.getNews_id(), Toast.LENGTH_SHORT).show();
             //fill here
         }
@@ -72,8 +72,8 @@ public class AdminNewsFrag extends Fragment {
                 {
                     String updatedDesc=description.getText().toString();
                     String updatedTitle=title.getText().toString();
-                    db.updateNews(NewsAdminRecyclerViewFrag.selectedNews.getNews_id(),updatedDesc,updatedTitle);
-                    Toast.makeText(getActivity(), "News Updated Successfully!!"+NewsAdminRecyclerViewFrag.selectedNews.getNews_id(), Toast.LENGTH_SHORT).show();
+                    db.updateNews(NewsAdminRecyclerViewFrag.selectedNews.getNewsId(),updatedDesc,updatedTitle);
+                    Toast.makeText(getActivity(), "News Updated Successfully!!"+NewsAdminRecyclerViewFrag.selectedNews.getNewsId(), Toast.LENGTH_SHORT).show();
                     callNewsAdminRecyclerViewFrag();
                 }
 
@@ -87,6 +87,7 @@ public class AdminNewsFrag extends Fragment {
                     } else {
                         News news = new News(heading, desc, new Date());
                         db.write(news, "news");
+                        NewsAdminRecyclerViewFrag.selectedNews=null;
                         callNewsAdminRecyclerViewFrag();
                     }
                 }
@@ -98,8 +99,9 @@ public class AdminNewsFrag extends Fragment {
             @Override
             public void onClick(View view) {
 
-                db.remove(NewsAdminRecyclerViewFrag.selectedNews.getNews_id());
+                db.remove(NewsAdminRecyclerViewFrag.selectedNews.getNewsId());
                 Toast.makeText(getActivity(), "News Removed Successfully!!", Toast.LENGTH_SHORT).show();
+                NewsAdminRecyclerViewFrag.selectedNews=null;
                 callNewsAdminRecyclerViewFrag();
             }
         });

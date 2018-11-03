@@ -144,10 +144,10 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 
                     News news = new News();
                     try {
-                        news.setNews_id(ds.getValue(News.class).getNews_id());
-                        news.setTitle(ds.getValue(News.class).getTitle());
-                        news.setDescription(ds.getValue(News.class).getDescription());
-                        news.setNewsDate(ds.getValue(News.class).getDate());
+                        news.setNewsId(ds.getValue(News.class).getNewsId());
+                        news.setNewsTitle(ds.getValue(News.class).getNewsTitle());
+                        news.setNewsDescription(ds.getValue(News.class).getNewsDescription());
+                        news.setNewsDate(ds.getValue(News.class).getNewsDate());
 
                     }
                     catch (Exception e)
@@ -162,7 +162,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
                 }
                 if(mAdapter!=null)
                 {
-                    indusToast(getActivity(),"new news added");
+          //          indusToast(getActivity(),"new news added");
                 }
                 mAdapter = new MyAdapter(newsList);
 

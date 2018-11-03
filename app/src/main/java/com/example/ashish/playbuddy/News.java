@@ -9,7 +9,7 @@ public class News {
     private String newsTitle;
     private String newsDescription;
     private Date newsDate;
-   // public String sportsId;
+    public String sportId;
 
     public News()
     {
@@ -22,36 +22,43 @@ public class News {
         this.newsDate=newsDate;
     }
 
+    public String getNewsId() {
+        return newsId;
+    }
+
+    public void setNewsId(String newsId) {
+        this.newsId = newsId;
+    }
+
+    public String getNewsTitle() {
+        return newsTitle;
+    }
+
+    public void setNewsTitle(String newsTitle) {
+        this.newsTitle = newsTitle;
+    }
+
+    public String getNewsDescription() {
+        return newsDescription;
+    }
+
+    public void setNewsDescription(String newsDescription) {
+        this.newsDescription = newsDescription;
+    }
+
+    public Date getNewsDate() {
+        return newsDate;
+    }
+
     public void setNewsDate(Date newsDate) {
         this.newsDate = newsDate;
     }
 
-    public String getTitle() {
-        return newsTitle;
+    public String getSportId() {
+        return sportId;
     }
 
-    public Date getDate() {
-        return newsDate;
-    }
-
-
-    public String getDescription() {
-        return newsDescription;
-    }
-
-    public void setTitle(String newsTitle) {
-        this.newsTitle = newsTitle;
-    }
-
-    public void setDescription(String newsDescription) {
-        this.newsDescription = newsDescription;
-    }
-
-    public String getNews_id() {
-        return newsId;
-    }
-
-    public void setNews_id(String newsId) {
-        this.newsId = newsId;
+    public void setSportId(String sportId) {
+        this.sportId = sportId;
     }
 }
