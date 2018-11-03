@@ -5,6 +5,14 @@ public class Sport {
     private String sportId;
     private String sportName;
 
+
+    public Sport() {
+    }
+
+    public Sport(String sportName) {
+        this.sportName = sportName;
+    }
+
     public String getSportId() {
         return sportId;
     }

@@ -95,8 +95,8 @@ public class fragment_news_user_recyclerview extends Fragment {
             public void onClick(View view, int position) {
                 //selected news from recyclerView
                 selectedNews = newsList.get(position);
-                AdminNewsFrag fr = new AdminNewsFrag();
-                FragmentManager fm = getFragmentManager();
+                /*AdminNewsFrag fr = new AdminNewsFrag();
+                FragmentManager fm = getFragmentManager();*/
                 //fm.beginTransaction().replace(R.id.frame_container,fr).commit();
 
                 /////

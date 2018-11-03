@@ -31,7 +31,7 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
-public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag.OnFragmentInteractionListener ,frag_contact_us.OnFragmentInteractionListener,farg_about_us.OnFragmentInteractionListener,NewsAdminRecyclerViewFrag.OnFragmentInteractionListener,fragment_news_user_recyclerview.OnFragmentInteractionListener
+public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag.OnFragmentInteractionListener ,NewsAdminRecyclerViewFrag.OnFragmentInteractionListener,fragment_news_user_recyclerview.OnFragmentInteractionListener
 
 {
 
@@ -127,6 +127,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                 .withAccountHeader(headerResult)
                 .withSliderBackgroundColor(Color.parseColor("#FF1C9997"))
                 .addDrawerItems(new PrimaryDrawerItem().withName("Sports"),
+                        new PrimaryDrawerItem().withName("Venue"),
                         new PrimaryDrawerItem().withName("News"),
                         new PrimaryDrawerItem().withName("Events"),
                         new PrimaryDrawerItem().withName("Committee Members"),
@@ -149,16 +150,22 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 fr=new AdminSportRecyclerViewFrag();
                                 break;
                             case 2:
+                                indusLog("admin add venue");
+
+                                break;
+
+                            case 3:
                                 indusLog("admin news");
                                 fr=new NewsAdminRecyclerViewFrag();
                                 break;
-                            case 3:
+
+                            case 4:
                                 indusLog("admin events");
                                 break;
-                            case 4:
+                            case 5:
                                 indusLog("admin committee members");
                                 break;
-                            case 5:
+                            case 6:
                                 indusToast(NavigationDrawer.this,"Admin Logout");
                                 intt.putExtra("logouttoken", 1);
                                 startActivity(intt);
@@ -222,22 +229,26 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 indusLog("news");
                                 break;
                             case 3:
-                                indusLog("play area");
+                                indusLog("Events");
                                 break;
                             case 4:
-                                indusLog("find buddy");
+                                indusLog("play area");
                                 break;
 
                             case 5:
-                                fr=new farg_about_us();
-                                indusLog("about us");
+
+                                indusLog("find buddy");
                                 break;
                             case 6:
+                                fr=new farg_about_us();
+
+                                indusLog("about us");
+                                break;
+                            case 7:
                                 fr=new frag_contact_us();
                                 indusLog("contact us");
                                 break;
-
-                            case 7:
+                            case 8:
                                 indusToast(NavigationDrawer.this,"User Logout");
                                 intt.putExtra("logouttoken", 1);
                                 startActivity(intt);

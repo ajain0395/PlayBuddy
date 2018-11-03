@@ -1,12 +1,15 @@
 package com.example.ashish.playbuddy;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -36,9 +41,10 @@ public class AdminSportRecyclerViewFrag extends Fragment {
     private RecyclerView recyclerView;
     private MySportsAdapter mAdapter;
     private FloatingActionButton addSports;
-    public static   Sport selectedSport;
+    private     Sport selectedSport;
     private List<Sport> sportsList = null;
     private  List<Venue> venueList=null;
+    private SportDatabase sportDatabase;
 
     /*//frag listener
     private OnFragmentInteractionListener mListener;
@@ -54,6 +60,7 @@ public class AdminSportRecyclerViewFrag extends Fragment {
         super.onCreate(savedInstanceState);
         Log.i("TAG","passed sports layout created");
         myDatabase = FirebaseDatabase.getInstance().getReference();
+        sportDatabase=new SportDatabase();
 
     }
 
@@ -67,7 +74,7 @@ public class AdminSportRecyclerViewFrag extends Fragment {
         prepareSportsData();
 
         //inflating xml
-        recyclerView = mview.findViewById(R.id.recycler_view);
+        recyclerView = mview.findViewById(R.id.sport_recycler_view);
         addSports=mview.findViewById(R.id.addSport);
 
         //setting recyclerView
@@ -81,12 +88,77 @@ public class AdminSportRecyclerViewFrag extends Fragment {
         recyclerView.addOnItemTouchListener(new myRecyclerViewListner(getActivity(), recyclerView, new myRecyclerViewListner.ClickListener() {
 
 
-            public void onClick(View view, int position) {
+            public void onClick(final View view, int position) {
 
                 //selected news from recyclerView
                 selectedSport = sportsList.get(position);
 
                 //add dialog here
+                // Creating alert Dialog with one Button
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
+                //AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+
+                // Setting Dialog Title
+                alertDialog.setTitle("Sport Name");
+
+                // Setting Dialog Message
+                alertDialog.setMessage("Enter Sports");
+
+
+                final EditText input = new EditText(getContext());
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                input.setText(selectedSport.getSportName());
+                alertDialog.setView(input);
+
+
+
+               alertDialog.setNeutralButton("Remove Sport", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        sportDatabase.remove(selectedSport.getSportId());
+                        indusLog("successfully removed from sports Database!!");
+                    }
+                });
+                // Setting Positive "Yes" Button
+                alertDialog.setPositiveButton("Save",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int which) {
+                                String sportName=input.getText().toString();
+                                if(sportName.length()==0)
+                                {
+                                    Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                                }
+                                else if(sportName.equals(selectedSport.getSportName()))
+                                {
+                                    Toast.makeText(getActivity(), "Entered Same Sport Name!!ClickAgain to change.", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                                else
+                                {
+                                    sportDatabase.update(selectedSport.getSportId(),sportName);
+                                    indusLog("sports database updated successfully");
+                                }
+
+                            }
+                        });
+                // Setting Negative "NO" Button
+                alertDialog.setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                dialog.cancel();
+                            }
+                        });
+
+                // closed
+
+                // Showing Alert Message
+                alertDialog.show();
+
 
 
                 // Toast.makeText(getActivity(), news + "", Toast.LENGTH_SHORT).show();
@@ -100,11 +172,74 @@ public class AdminSportRecyclerViewFrag extends Fragment {
         addSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* AdminSportFragment fr=new AdminSportFragment();
 
-                FragmentManager fm = getFragmentManager();
+                //add dialog here
+                // Creating alert Dialog with one Button
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
-                fm.beginTransaction().replace(R.id.frame_container,fr).commit();*/
+                //AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+
+                // Setting Dialog Title
+                alertDialog.setTitle("Sport Name");
+
+                // Setting Dialog Message
+                alertDialog.setMessage("Enter Sports");
+
+
+                final EditText input = new EditText(getContext());
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+
+
+               /* //removing from database
+                alertDialog.setNeutralButton("Remove", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });*/
+
+               // Setting Positive "Yes" Button
+
+                alertDialog.setPositiveButton("Save",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int which) {
+
+                                String sportName=input.getText().toString();
+                                if(sportName.length()==0)
+                                {
+                                    Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Sport sport=new Sport(sportName);
+                                    sportDatabase.write(sport,"sports");
+                                    indusLog("sports database written successfully");
+
+                                }
+
+
+                            }
+                        });
+                // Setting Negative "NO" Button
+                alertDialog.setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                dialog.cancel();
+                            }
+                        });
+
+                // closed
+
+                // Showing Alert Message
+                alertDialog.show();
+
+
+
             }
         });
 
@@ -151,6 +286,7 @@ public class AdminSportRecyclerViewFrag extends Fragment {
                 {
                     //          indusToast(getActivity(),"new news added");
                 }
+
                 mAdapter = new MySportsAdapter(sportsList);
 
                 recyclerView.setAdapter(mAdapter);
