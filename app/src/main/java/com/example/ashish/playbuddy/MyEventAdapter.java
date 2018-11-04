@@ -44,7 +44,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.MyViewHo
         holder.title.setText(event.getEventTitle());
         holder.date.setText("Date: "+ event.getEventDate().getDay() + "-"
                             +event.getEventDate().getMonth() + "-"
-                            +event.getEventDate().getYear() + "-\n"
+                            +event.getEventDate().getYear() + "\n"
                             +"Time: "+ event.getEventStartTime());
         //add data to holder
         // holder.genre.setText(movie.getGenre());

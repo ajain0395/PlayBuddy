@@ -68,6 +68,15 @@ public class AdminEventFrag extends Fragment {
             remove.setVisibility(View.VISIBLE);
             title.setText(AdminEventRecyclerViewFrag.selectedEvent.getEventTitle());
             description.setText(AdminEventRecyclerViewFrag.selectedEvent.getEventTitle());
+            starttime.setText(AdminEventRecyclerViewFrag.selectedEvent.getEventStartTime());
+            endtime.setText(AdminEventRecyclerViewFrag.selectedEvent.getEventEndTime());
+            mDay = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getDay();
+            mYear = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getYear();
+            mMonth = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getMonth();
+            eventdate.setText("Event Date\n" + mDay + "-"
+            + mMonth + "-"
+                    +mYear
+            );
             // Toast.makeText(getActivity(), ""+NewsAdminRecyclerViewFrag.selectedNews.getNews_id(), Toast.LENGTH_SHORT).show();
             //fill here
         }
@@ -76,7 +85,6 @@ public class AdminEventFrag extends Fragment {
             @Override
             public void onClick(View view) {
 
-
                 if(AdminEventRecyclerViewFrag.selectedEvent!=null)
                 {
                     String updatedDesc=description.getText().toString();
@@ -84,9 +92,13 @@ public class AdminEventFrag extends Fragment {
                     AdminEventRecyclerViewFrag.selectedEvent.setEventDescription(updatedDesc);
                     AdminEventRecyclerViewFrag.selectedEvent.setEventTitle(updatedTitle);
                     AdminEventRecyclerViewFrag.selectedEvent.setEventStartTime(starttime.getText().toString());
-                    AdminEventRecyclerViewFrag.selectedEvent.setEventDescription(endtime.getText().toString());
+                    AdminEventRecyclerViewFrag.selectedEvent.setEventEndTime(endtime.getText().toString());
                     AdminEventRecyclerViewFrag.selectedEvent.setSportId("");
-                    AdminEventRecyclerViewFrag.selectedEvent.setEventDate(new Date());
+                    Date saveDate = new Date();
+                    saveDate.setDate(mDay);
+                    saveDate.setMonth(mMonth);
+                    saveDate.setYear(mYear);
+                    AdminEventRecyclerViewFrag.selectedEvent.setEventDate(saveDate);
                     AdminEventRecyclerViewFrag.selectedEvent.setVenueId("");
                     //AdminEventRecyclerViewFrag.selectedEvent.setEventDescription(new Date());
                     db.updateEvent(AdminEventRecyclerViewFrag.selectedEvent);
@@ -99,7 +111,7 @@ public class AdminEventFrag extends Fragment {
                 else {
                     String heading = title.getText().toString();
                     String desc = description.getText().toString();
-                    if (heading.length() == 0 && desc.length() == 0) {
+                    if (heading.length() == 0 || desc.length() == 0) {
                         Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
                     } else {
                         Event event = new Event();
@@ -107,10 +119,13 @@ public class AdminEventFrag extends Fragment {
                         AdminEventRecyclerViewFrag.selectedEvent.setEventDescription(desc);
                         AdminEventRecyclerViewFrag.selectedEvent.setEventTitle(heading);
                         AdminEventRecyclerViewFrag.selectedEvent.setEventStartTime(starttime.getText().toString());
-                        AdminEventRecyclerViewFrag.selectedEvent.setEventDescription(endtime.getText().toString());
+                        AdminEventRecyclerViewFrag.selectedEvent.setEventEndTime(endtime.getText().toString());
                         AdminEventRecyclerViewFrag.selectedEvent.setSportId("");
-                        AdminEventRecyclerViewFrag.selectedEvent.setEventDate(new Date());
-                        AdminEventRecyclerViewFrag.selectedEvent.setVenueId("");
+                        Date saveDate = new Date();
+                        saveDate.setDate(mDay);
+                        saveDate.setMonth(mMonth);
+                        saveDate.setYear(mYear);
+                        AdminEventRecyclerViewFrag.selectedEvent.setEventDate(saveDate);                        AdminEventRecyclerViewFrag.selectedEvent.setVenueId("");
                         db.write(event, "event");
                         AdminEventRecyclerViewFrag.selectedEvent=null;
                         callEventAdminRecyclerViewFrag();
