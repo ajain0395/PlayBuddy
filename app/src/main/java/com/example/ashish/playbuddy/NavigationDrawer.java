@@ -31,8 +31,7 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
-public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag.OnFragmentInteractionListener ,frag_contact_us.OnFragmentInteractionListener,farg_about_us.OnFragmentInteractionListener,NewsAdminRecyclerViewFrag.OnFragmentInteractionListener,fragment_news_user_recyclerview.OnFragmentInteractionListener
-
+public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag.OnFragmentInteractionListener ,NewsAdminRecyclerViewFrag.OnFragmentInteractionListener,fragment_news_user_recyclerview.OnFragmentInteractionListener,AdminEventRecyclerViewFrag.OnFragmentInteractionListener,AdminEventFrag.OnFragmentInteractionListener
 {
 
     public static final String LOGTAG = "indus";
@@ -154,6 +153,8 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 break;
                             case 3:
                                 indusLog("admin events");
+                                fr=new AdminEventRecyclerViewFrag();
+
                                 break;
                             case 4:
                                 indusLog("admin committee members");
