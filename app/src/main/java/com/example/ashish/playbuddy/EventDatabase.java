@@ -45,7 +45,7 @@ public class EventDatabase {
             taskMap.put("venueId",event.getVenueId());
             taskMap.put("eventStartTime",event.getEventStartTime());
             taskMap.put("eventEndTime",event.getEventEndTime());
-            myDatabase.child("event").child(eventId).updateChildren(taskMap);
+            myDatabase.child("event").child(event.getEventId()).updateChildren(taskMap);
         }
         else
         {
