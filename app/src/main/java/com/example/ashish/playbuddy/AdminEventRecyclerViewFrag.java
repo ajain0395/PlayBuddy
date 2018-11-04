@@ -1,16 +1,12 @@
 package com.example.ashish.playbuddy;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,42 +28,48 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class NewsAdminRecyclerViewFrag extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link AdminEventRecyclerViewFrag.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link AdminEventRecyclerViewFrag#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class AdminEventRecyclerViewFrag extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-  //  my code
-  private DatabaseReference myDatabase;
-    public  List<News>  newsList = null;
-    private RecyclerView recyclerView;
-    private MyAdapter mAdapter;
-    FloatingActionButton addNews;
-    public static News selectedNews;
-    //public static String title,description;
-   // Database db;
-
-    public static final String LOGTAG = "indus";
-    //////
     private OnFragmentInteractionListener mListener;
 
-    Comparator<News> cmp = new Comparator<News>() {
-        public int compare(News o1, News o2) {
-            return o2.getNewsDate().compareTo(o1.getNewsDate());
-        }
-    };
-
-    public NewsAdminRecyclerViewFrag() {
+    public AdminEventRecyclerViewFrag() {
         // Required empty public constructor
     }
 
+    private DatabaseReference myDatabase;
+    public List<Event> eventList = null;
+    private RecyclerView recyclerView;
+    private MyEventAdapter mAdapter;
+    FloatingActionButton addEvent;
+    public static Event selectedEvent;
+    //public static String title,description;
+    // Database db;
 
-    public static NewsAdminRecyclerViewFrag newInstance(String param1, String param2) {
-        NewsAdminRecyclerViewFrag fragment = new NewsAdminRecyclerViewFrag();
+    public static final String LOGTAG = "indus";
+    //////
+
+    Comparator<Event> cmp = new Comparator<Event>() {
+        public int compare(Event o1, Event o2) {
+            return o2.getEventDate().compareTo(o1.getEventDate());
+        }
+    };
+
+    public static AdminEventRecyclerViewFrag newInstance(String param1, String param2) {
+        AdminEventRecyclerViewFrag fragment = new AdminEventRecyclerViewFrag();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
-
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,23 +81,21 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        Log.i("TAG","passed layout 0");
-        View mview = inflater.inflate(R.layout.fragment_news_admin_recycler_view, container, false);
-
         //bring data from database.
-         prepareNewsData();
+        prepareEventData();
+        View mview = inflater.inflate(R.layout.fragment_fragment_admin_event_recyclerview, container, false);
 
-        recyclerView = mview.findViewById(R.id.recycler_view);
-        addNews=mview.findViewById(R.id.addNews);
+
+        recyclerView = mview.findViewById(R.id.recycler_view_user_event);
+        addEvent = mview.findViewById(R.id.addEvent);
 
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        Log.i("TAG","passed layout 1");
+        Log.i("TAG", "passed layout 1");
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
 
@@ -105,17 +104,17 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 
             public void onClick(View view, int position) {
 
-               //selected news from recyclerView
-                selectedNews = newsList.get(position);
+                //selected event from recyclerView
+                selectedEvent = eventList.get(position);
 
-                AdminNewsFrag fr = new AdminNewsFrag();
+                AdminEventFrag fr = new AdminEventFrag();
 
                 FragmentManager fm = getFragmentManager();
 
-                fm.beginTransaction().replace(R.id.frame_container,fr).commit();
+                fm.beginTransaction().replace(R.id.frame_container, fr).commit();
 
 
-               // Toast.makeText(getActivity(), news + "", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), event + "", Toast.LENGTH_SHORT).show();
             }
 
             public void onLongClick(View view, int position) {
@@ -123,15 +122,15 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
             }
         }));
 
-        addNews.setOnClickListener(new View.OnClickListener() {
+        addEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                AdminNewsFrag fr = new AdminNewsFrag();
+                AdminEventFrag fr = new AdminEventFrag();
 
                 FragmentManager fm = getFragmentManager();
 
-                fm.beginTransaction().replace(R.id.frame_container,fr).commit();
+                fm.beginTransaction().replace(R.id.frame_container, fr).commit();
 
             }
         });
@@ -142,43 +141,45 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
 
 
     //to read data from database and set it to recyclerView Adapter
-    private void prepareNewsData() {
+    private void prepareEventData() {
 
-        myDatabase.child("news").addValueEventListener(new ValueEventListener() {
+        myDatabase.child("event").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                newsList = new ArrayList<>();
+                eventList = new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    News news = new News();
+                    Event event = new Event();
                     try {
-                        news.setNewsId(ds.getValue(News.class).getNewsId());
-                        news.setNewsTitle(ds.getValue(News.class).getNewsTitle());
-                        news.setNewsDescription(ds.getValue(News.class).getNewsDescription());
-                        news.setNewsDate(ds.getValue(News.class).getNewsDate());
+                        event.setEventId(ds.getValue(Event.class).getEventId());
+                        event.setEventDate(ds.getValue(Event.class).getEventDate());
+                        event.setEventDescription(ds.getValue(Event.class).getEventDescription());
+                        event.setEventTitle(ds.getValue(Event.class).getEventTitle());
+                        event.setEventStartTime(ds.getValue(Event.class).getEventStartTime());
+                        event.setSportId(ds.getValue(Event.class).getSportId());
+                        event.setVenueId(ds.getValue(Event.class).getVenueId());
+                        event.setEventEndTime(ds.getValue(Event.class).getEventEndTime());
 
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         indusLog("Exception in fetching from Db");
                         e.printStackTrace();
                     }
 
 
-                    newsList.add(news);
+                    eventList.add(event);
 
                 }
-                newsList.sort(cmp);
-                if(mAdapter!=null)
-                {
-          //          indusToast(getActivity(),"new news added");
+                eventList.sort(cmp);
+                if (mAdapter != null) {
+                    //          indusToast(getActivity(),"new Event added");
                 }
-                mAdapter = new MyAdapter(newsList);
+                mAdapter = new MyEventAdapter(eventList);
 
                 recyclerView.setAdapter(mAdapter);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -199,8 +200,8 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof AdminEventRecyclerViewFrag.OnFragmentInteractionListener) {
+            mListener = (AdminEventRecyclerViewFrag.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -214,13 +215,11 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
         mListener = null;
     }
 
-    public void indusLog(String message)
-    {
-        Log.i(LOGTAG,message);
+    public void indusLog(String message) {
+        Log.i(LOGTAG, message);
     }
 
-    public  void indusToast(Context context, String message)
-    {
+    public void indusToast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 
         indusLog(message);
