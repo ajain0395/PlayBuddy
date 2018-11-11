@@ -6,6 +6,14 @@ public class Venue {
     private String venueName;
     String sportId;
 
+    public Venue() {
+    }
+
+    public Venue(String venueName, String sportId) {
+        this.venueName = venueName;
+        this.sportId = sportId;
+    }
+
     public String getVenueId() {
         return venueId;
     }

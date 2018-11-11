@@ -24,7 +24,7 @@
         />
 
     <EditText
-        android:id="@+id/venue"
+        android:id="@+id/venueEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:spinnerMode="dialog"
         app:layout_constraintBottom_toTopOf="@id/buttonslayoutaddsport"
-        app:layout_constraintTop_toBottomOf="@+id/venue"
+        app:layout_constraintTop_toBottomOf="@+id/venueEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:id="@+id/save"
+            android:id="@+id/venuesave"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
@@ -76,7 +76,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
         <Button
-            android:id="@+id/remove"
+            android:id="@+id/venueremove"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
@@ -85,12 +85,12 @@
             android:text="Remove"
             android:visibility="invisible"
             app:layout_constraintTop_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cancle"
-            app:layout_constraintStart_toEndOf="@+id/save"
+            app:layout_constraintEnd_toStartOf="@+id/venuecancle"
+            app:layout_constraintStart_toEndOf="@+id/venuesave"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <Button
-            android:id="@+id/cancle"
+            android:id="@+id/venuecancle"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"

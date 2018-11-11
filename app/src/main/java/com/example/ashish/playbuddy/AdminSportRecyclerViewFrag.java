@@ -256,18 +256,14 @@ public class AdminSportRecyclerViewFrag extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 sportsList = new ArrayList<>();
-//                venueList=new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     Sport sport=new Sport();
-               //     Venue venue=new Venue();
-                    try {
+
+                   try {
 
                         sport.setSportId(ds.getValue(Sport.class).getSportId());
                         sport.setSportName(ds.getValue(Sport.class).getSportName());
-                       /* venue.setVenueId(ds.getValue(Venue.class).getVenueId());
-                        venue.setVenueName(ds.getValue(Venue.class).getVenueName());
-                        venue.setSportId(ds.getValue(Venue.class).getSportId());*/
 
 
                     }
@@ -279,7 +275,7 @@ public class AdminSportRecyclerViewFrag extends Fragment {
 
 
                     sportsList.add(sport);
-                  //  venueList.add(venue);
+
 
                 }
                 if(mAdapter!=null)
