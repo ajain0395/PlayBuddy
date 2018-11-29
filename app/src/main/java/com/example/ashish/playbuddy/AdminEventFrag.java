@@ -68,8 +68,8 @@ public class AdminEventFrag extends Fragment {
             remove.setVisibility(View.VISIBLE);
             title.setText(AdminEventRecyclerViewFrag.selectedEvent.getEventTitle());
             description.setText(AdminEventRecyclerViewFrag.selectedEvent.getEventTitle());
-            starttime.setText(AdminEventRecyclerViewFrag.selectedEvent.getEventStartTime());
-            endtime.setText(AdminEventRecyclerViewFrag.selectedEvent.getEventEndTime());
+            starttime.setText("Start Time\n" + AdminEventRecyclerViewFrag.selectedEvent.getEventStartTime());
+            endtime.setText("End Time\n" + AdminEventRecyclerViewFrag.selectedEvent.getEventEndTime());
             mDay = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getDay();
             mYear = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getYear();
             mMonth = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getMonth();

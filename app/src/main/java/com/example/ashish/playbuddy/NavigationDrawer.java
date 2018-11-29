@@ -225,6 +225,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                         switch (position) {
                             case 1:
                                 indusLog("interests");
+                                fr=new UserInterestFrag();
                                 break;
                             case 2:
                                 fr = new fragment_news_user_recyclerview();
