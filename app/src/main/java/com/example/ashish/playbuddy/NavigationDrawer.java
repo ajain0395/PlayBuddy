@@ -235,6 +235,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 indusLog("Events");
                                 break;
                             case 4:
+                                fr = new UserTImeLineRVFrag();
                                 indusLog("play area");
                                 break;
 

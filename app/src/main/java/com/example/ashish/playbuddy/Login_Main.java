@@ -109,6 +109,23 @@ public class Login_Main extends AppCompatActivity  implements GoogleApiClient.On
             nt.putExtra("email", account.getEmail());
             nt.putExtra("dp", account.getPhotoUrl());
             nt.putExtra("level", 2);
+            /*TimeLineDatabase tdb = new TimeLineDatabase();
+
+            for(int i = 0; i < 24;i++)
+            {
+                TimeLine timeLine1 = new TimeLine();
+                TimeLine timeLine2 = new TimeLine();
+                timeLine1.setStartTime(i + ":00");
+                timeLine1.setEndTime(i + ":30");
+
+                timeLine2.setStartTime(i + ":30");
+                timeLine2.setEndTime(i+1 + ":00");
+                if(i == 23)
+                timeLine2.setEndTime(00 + ":00");
+                tdb.write(timeLine1,"timeline");
+                tdb.write(timeLine2,"timeline");
+            }*/
+
             startActivity(nt);
             finish();
         }
