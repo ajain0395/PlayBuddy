@@ -130,7 +130,6 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                         new PrimaryDrawerItem().withName("Venue"),
                         new PrimaryDrawerItem().withName("News"),
                         new PrimaryDrawerItem().withName("Events"),
-                        new PrimaryDrawerItem().withName("Committee Members"),
                         new SecondaryDrawerItem().withName("Logout")
                 ).withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
                     @Override
@@ -151,7 +150,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 break;
                             case 2:
                                 indusLog("admin add venue");
-                                fr=new AdminVenueFragment();
+                                fr=new AdminVenueRecyclerViewfrag();
                                 break;
 
                             case 3:
@@ -165,9 +164,6 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
 
                                 break;
                             case 5:
-                                indusLog("admin committee members");
-                                break;
-                            case 6:
                                 indusToast(NavigationDrawer.this,"Admin Logout");
                                 intt.putExtra("logouttoken", 1);
                                 startActivity(intt);

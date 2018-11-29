@@ -16,11 +16,13 @@ public class News {
 
     }
 
-    public News(String newsTitle, String newsDescription,Date newsDate) {
+    public News(String newsTitle, String newsDescription,Date newsDate, String sportId) {
         this.newsTitle = newsTitle;
         this.newsDescription = newsDescription;
         this.newsDate=newsDate;
+        this.sportId=sportId;
     }
+
 
     public String getNewsId() {
         return newsId;
