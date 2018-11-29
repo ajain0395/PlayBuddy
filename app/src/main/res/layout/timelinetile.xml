@@ -14,39 +14,72 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/row_padding_vertical">
 
-    <TextView
-        android:id="@+id/timeslot"
-        android:layout_width="213dp"
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/timelinedetails"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/title"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/minus"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/timelineslotstarttime"
+            android:layout_width="213dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/title"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/timelineslotendtime"
+            app:layout_constraintStart_toStartOf="@+id/timelineslotendtime"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/timelineslotendtime"
+            android:layout_width="213dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/title"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/timelineslotcount"
+            app:layout_constraintStart_toStartOf="@+id/timelineslotcount"
+            app:layout_constraintTop_toBottomOf="@+id/timelineslotstarttime" />
+
+        <TextView
+            android:id="@+id/timelineslotcount"
+            android:layout_width="213dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/title"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timelineslotendtime" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <Button
-        android:id="@+id/minus"
+        android:id="@+id/timelineminus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-"
-        app:layout_constraintEnd_toStartOf="@+id/plus"
+        app:layout_constraintBottom_toBottomOf="@+id/timelinedetails"
+        app:layout_constraintEnd_toStartOf="@+id/timelineplus"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/title"
-        tools:layout_editor_absoluteY="10dp"
+        app:layout_constraintStart_toEndOf="@+id/timelinedetails"
+        app:layout_constraintTop_toTopOf="@+id/timelinedetails"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/plus"
+        android:id="@+id/timelineplus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
-
+        app:layout_constraintBottom_toBottomOf="@+id/timelineminus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/minus"
-        tools:layout_editor_absoluteY="10dp"
+        app:layout_constraintStart_toEndOf="@+id/timelineminus"
+        app:layout_constraintTop_toTopOf="@+id/timelineminus"
         tools:ignore="MissingConstraints" />
 
     <!--TextView
