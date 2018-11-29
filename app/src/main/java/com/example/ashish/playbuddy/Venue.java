@@ -4,7 +4,7 @@ public class Venue {
 
     private String venueId;
     private String venueName;
-    String sportId;
+    private String sportId;
 
     public Venue() {
     }
