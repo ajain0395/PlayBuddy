@@ -102,6 +102,8 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
 
         } else {
             user(toolbar, savedInstanceState);
+            fr=new NewsAdminRecyclerViewFrag();
+            fragmentCall(fr);
         }
 
     }
