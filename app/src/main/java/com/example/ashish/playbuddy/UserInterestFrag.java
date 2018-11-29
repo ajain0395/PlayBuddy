@@ -177,7 +177,7 @@ public class UserInterestFrag extends Fragment {
                 listView.setAdapter(adapterList);
 
                 //to show already checked data on list view and adding it to selected list.
-                if(sportsAlreadyInDb.size()!=0) {
+                if(sportsAlreadyInDb != null && sportsAlreadyInDb.size()!=0) {
                     for (int i : sportsAlreadyInDb) {
                         // indusLog(" sport : "+sportsAlreadyInDb.get(i).toString());
                         listView.setItemChecked(i,true);
