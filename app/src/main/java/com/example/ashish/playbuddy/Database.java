@@ -39,12 +39,13 @@ public class Database {
         myDatabase.child(databaseName).child(newsId).setValue(obj);
     }
 
-    public void updateNews(String newsId,String newsDescription,String newsTitle)
+    public void updateNews(String newsId,String newsDescription,String newsTitle,String sportId)
     {
         Map<String,Object> taskMap = new HashMap<String, Object>();
         taskMap.put("newsDescription", newsDescription);
         taskMap.put("newsTitle",newsTitle);
         taskMap.put("newsDate",new Date());
+        taskMap.put("sportId",sportId);
         if(newsId!=null) {
             myDatabase.child("news").child(newsId).updateChildren(taskMap);
         }
@@ -65,6 +66,5 @@ public class Database {
             Log.e("indus","Data not updated as id is null");
         }
     }
-
 
 }

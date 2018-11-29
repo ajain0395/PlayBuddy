@@ -41,10 +41,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         News news = newslist.get(position);
         holder.title.setText(news.getNewsTitle());
-
-        //add data to holder
-       // holder.genre.setText(movie.getGenre());
-       // holder.year.setText(movie.getYear());
     }
 
     @Override

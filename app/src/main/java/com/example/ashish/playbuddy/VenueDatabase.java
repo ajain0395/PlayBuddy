@@ -32,19 +32,20 @@ public class VenueDatabase {
         myDatabase.child(databaseName).child(venueId).setValue(obj);
     }
 
-   /* public void update(String venueId,String venue,String  sportId)
+    public void updateVenue(Venue venue)
     {
-        Map<String,Object> taskMap = new HashMap<String, Object>();
-        taskMap.put("sportName", sportName);
+        if(venue!=null) {
+            Map<String,Object> taskMap = new HashMap<String, Object>();
+            taskMap.put("venueName", venue.getVenueName());
+            taskMap.put("sportId",venue.getSportId());
 
-        if(sportId!=null) {
-            myDatabase.child("sports").child(sportId).updateChildren(taskMap);
+            myDatabase.child("venue").child(venue.getVenueId()).updateChildren(taskMap);
         }
         else
         {
             Log.e("indus","Data not updated as id is null");
         }
-    }*/
+    }
 
     public void remove(String venueId)
     {

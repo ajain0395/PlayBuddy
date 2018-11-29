@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -33,7 +35,7 @@ public class AdminVenueFragment extends Fragment {
    public static final String LOGTAG = "indus";
 
     //xml data
-    private Button save,cancel,remove;
+    private Button save,cancel,venueremove;
     private EditText venueEdit;
     private Spinner sportsSpinner;
     private VenueDatabase venueDatabase;
@@ -42,6 +44,7 @@ public class AdminVenueFragment extends Fragment {
     private DatabaseReference myDatabase;
     private ArrayAdapter<String> adapter;
     //private  SportDatabase sportDatabase;
+    //private VenueDatabase db;
     private int spinnerPosition;
 
     public AdminVenueFragment() {
@@ -69,6 +72,7 @@ public class AdminVenueFragment extends Fragment {
         cancel=venueView.findViewById(R.id.venuecancle);
         venueEdit=venueView.findViewById(R.id.venueEdit);
         sportsSpinner=venueView.findViewById(R.id.venue_sportlist);
+        venueremove=venueView.findViewById(R.id.venueremove);
 
         //read data on spinner
         prepareSportsData();
@@ -87,40 +91,76 @@ public class AdminVenueFragment extends Fragment {
 
             }
         });
+        if(AdminVenueRecyclerViewfrag.selectedVenue !=null)
+        {
+            //  remove.setVisibility(View.VISIBLE);
+            //save.setVisibility(View.INVISIBLE);
+            venueremove.setVisibility(View.VISIBLE);
+            venueEdit.setText(AdminVenueRecyclerViewfrag.selectedVenue.getVenueName());
+            // Toast.makeText(getActivity(), ""+.selectedNews.getNews_id(), Toast.LENGTH_SHORT).show();
+            //fill here
+        }
+
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String venueName=venueEdit.getText().toString();
-                String sportsId=sportsList.get(spinnerPosition).getSportId();
 
-                if(venueName.length()==0)
-                {      indusLog("venue not given");
-                    Toast.makeText(getActivity(), "Please fill the Venue!!", Toast.LENGTH_SHORT).show();
-                }
-                else
+                if(AdminVenueRecyclerViewfrag.selectedVenue!=null)
                 {
-                    Venue venue=new Venue(venueName,sportsId);
-                    venueDatabase.write(venue,"venue");
-                    indusLog("venue database written successfully");
-
+                    String updatedVenueName=venueEdit.getText().toString();
+                    String updatedSportsId=sportsList.get(spinnerPosition).getSportId();
+                    Venue venue = new Venue();
+                    venue.setVenueId(AdminVenueRecyclerViewfrag.selectedVenue.getVenueId());
+                    venue.setSportId(updatedSportsId);
+                    venue.setVenueName(updatedVenueName);
+                    venueDatabase.updateVenue(venue);
+                    Toast.makeText(getActivity(), "Updated Venue "+AdminVenueRecyclerViewfrag.selectedVenue.getVenueName()+" Successfully!", Toast.LENGTH_SHORT).show();
+                    callAdminVenueRecyclerViewfrag();
                 }
+                else {
+                    Venue venue = new Venue();
+                    venue.setVenueName(venueEdit.getText().toString());
+                    venue.setSportId(sportsList.get(spinnerPosition).getSportId());
 
 
+                    if (venueEdit.getText().toString().length() == 0 && sportsList.get(spinnerPosition).getSportId().length() == 0) {
+                        Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Venue venue1 = new Venue(venueEdit.getText().toString(), sportsList.get(spinnerPosition).getSportId());
+                        venueDatabase.write(venue1, "venue");
+                        AdminVenueRecyclerViewfrag.selectedVenue=null;
+                        callAdminVenueRecyclerViewfrag();
+                    }
+                }
             }
         });
+
+        venueremove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                venueDatabase.remove(AdminVenueRecyclerViewfrag.selectedVenue.getVenueId());
+                Toast.makeText(getActivity(), "Venue Removed Successfully!!", Toast.LENGTH_SHORT).show();
+                AdminVenueRecyclerViewfrag.selectedVenue=null;
+                callAdminVenueRecyclerViewfrag();
+            }
+        });
+
 
         //cancel to go back
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                venueEdit.setText(null);
+
+                AdminVenueRecyclerViewfrag.selectedVenue=null;
+                callAdminVenueRecyclerViewfrag();
 
             }
         });
-
         return venueView;
     }
-
 
     //to read data from database and set it to recyclerView Adapter
     private void prepareSportsData() {
@@ -140,8 +180,6 @@ public class AdminVenueFragment extends Fragment {
 
                         sport.setSportId(ds.getValue(Sport.class).getSportId());
                         sport.setSportName(ds.getValue(Sport.class).getSportName());
-
-
                     }
                     catch (Exception e)
                     {
@@ -151,25 +189,17 @@ public class AdminVenueFragment extends Fragment {
 
                     sportNameList.add(sport.getSportName());
                     sportsList.add(sport);
-
-
                 }
-
-
 
                 if(adapter!=null)
                 {
                     //          indusToast(getActivity(),"new news added");
                 }
                 //spinner adapter
-                adapter = new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_spinner_item,
+                adapter = new ArrayAdapter<String>(getContext(),
+                        android.R.layout.simple_spinner_dropdown_item,
                         sportNameList);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
-
-
 
                 //set the adapter on the spinner
                 sportsSpinner.setAdapter(adapter);
@@ -184,6 +214,16 @@ public class AdminVenueFragment extends Fragment {
 
     }
 
+
+    void callAdminVenueRecyclerViewfrag()
+    {
+        AdminVenueRecyclerViewfrag fr=new AdminVenueRecyclerViewfrag();
+
+        FragmentManager fm = getFragmentManager();
+
+        fm.beginTransaction().replace(R.id.frame_container,fr).commit();
+
+    }
     public void indusLog(String message)
     {
         Log.i(LOGTAG,message);
@@ -196,42 +236,4 @@ public class AdminVenueFragment extends Fragment {
         indusLog(message);
     }
 
-   /* // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    *//**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     *//*
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }*/
 }

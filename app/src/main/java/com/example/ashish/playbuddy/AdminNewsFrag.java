@@ -4,17 +4,28 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class AdminNewsFrag extends Fragment {
@@ -23,7 +34,12 @@ public class AdminNewsFrag extends Fragment {
   private   Button save,cancel,remove;
     private EditText title,description;
     private Database db;
-
+    private Spinner sportsSpinner;
+    private DatabaseReference myDatabase;
+    private List<Sport> newssportsList = null;
+    private List<String> newssportNameList=null;
+    private ArrayAdapter<String> newsadapter;
+    private int spinnerPosition;
 
     private OnFragmentInteractionListener mListener;
 
@@ -31,11 +47,12 @@ public class AdminNewsFrag extends Fragment {
         // Required empty public constructor
     }
 
-
+    public static final String LOGTAG = "indus";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db=new Database();
+        myDatabase= FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -50,7 +67,9 @@ public class AdminNewsFrag extends Fragment {
         save=rootview.findViewById(R.id.save);
         cancel=rootview.findViewById(R.id.cancle);
         remove=rootview.findViewById(R.id.remove);
+        sportsSpinner=rootview.findViewById(R.id.sportlist);
 
+        prepareNewsData();
 
         if(NewsAdminRecyclerViewFrag.selectedNews !=null)
         {
@@ -72,8 +91,9 @@ public class AdminNewsFrag extends Fragment {
                 {
                     String updatedDesc=description.getText().toString();
                     String updatedTitle=title.getText().toString();
-                    db.updateNews(NewsAdminRecyclerViewFrag.selectedNews.getNewsId(),updatedDesc,updatedTitle);
-                    Toast.makeText(getActivity(), "News Updated Successfully!!"+NewsAdminRecyclerViewFrag.selectedNews.getNewsId(), Toast.LENGTH_SHORT).show();
+                    String updatedSportsId=newssportsList.get(spinnerPosition).getSportId();
+                    db.updateNews(NewsAdminRecyclerViewFrag.selectedNews.getNewsId(),updatedDesc,updatedTitle,updatedSportsId);
+                    Toast.makeText(getActivity(), "News Updated Successfully!!"+NewsAdminRecyclerViewFrag.selectedNews.getNewsTitle(), Toast.LENGTH_SHORT).show();
                     callNewsAdminRecyclerViewFrag();
                 }
 
@@ -81,11 +101,11 @@ public class AdminNewsFrag extends Fragment {
                 else {
                     String heading = title.getText().toString();
                     String desc = description.getText().toString();
-
+                    String updatedSportsId=newssportsList.get(spinnerPosition).getSportId();
                     if (heading.length() == 0 && desc.length() == 0) {
                         Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
                     } else {
-                        News news = new News(heading, desc, new Date());
+                        News news = new News(heading, desc, new Date(),updatedSportsId);
                         db.write(news, "news");
                         NewsAdminRecyclerViewFrag.selectedNews=null;
                         callNewsAdminRecyclerViewFrag();
@@ -119,6 +139,61 @@ public class AdminNewsFrag extends Fragment {
 
         return rootview;
     }
+    private void prepareNewsData() {
+
+        myDatabase.child("sports").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                newssportsList = new ArrayList<>();
+                newssportNameList=new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    Sport sport=new Sport();
+
+                    try {
+
+                        sport.setSportId(ds.getValue(Sport.class).getSportId());
+                        sport.setSportName(ds.getValue(Sport.class).getSportName());
+                    }
+                    catch (Exception e)
+                    {
+                        indusLog("Exception in fetching from Db");
+                        e.printStackTrace();
+                    }
+
+                    newssportNameList.add(sport.getSportName());
+                    newssportsList.add(sport);
+                }
+
+                if(newsadapter!=null)
+                {
+                    //          indusToast(getActivity(),"new news added");
+                }
+                //spinner adapter
+                newsadapter = new ArrayAdapter<String>(getContext(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        newssportNameList);
+                newsadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                //set the adapter on the spinner
+                sportsSpinner.setAdapter(newsadapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Log.w("error", "Failed to read value.", databaseError.toException());
+
+            }
+        });
+
+    }
+    public void indusLog(String message)
+    {
+        Log.i(LOGTAG,message);
+    }
+
 
     void callNewsAdminRecyclerViewFrag()
     {

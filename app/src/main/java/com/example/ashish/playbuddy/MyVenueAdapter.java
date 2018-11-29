@@ -8,46 +8,44 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MySportsAdapter extends RecyclerView.Adapter<MySportsAdapter.MyViewHolder> {
+public class MyVenueAdapter extends RecyclerView.Adapter<MyVenueAdapter.MyViewHolder> {
 
-    private List<Sport> sportsList;
+    private List<Venue> venuelist;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
-
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.sportTileTitle);
-            //data to be displayed in tile
-            //    add if any
+            title = (TextView) view.findViewById(R.id.venueTileTitle);
+        //data to be displayed in tile
+        //    add if any
         }
     }
 
-
-    public MySportsAdapter(List<Sport> sports) {
-        this.sportsList = sports;
+    public MyVenueAdapter(List<Venue> venue) {
+        this.venuelist = venue;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.sporttile, parent, false);
+                .inflate(R.layout.venuetile, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Sport sports = sportsList.get(position);
-        holder.title.setText(sports.getSportName());
+        Venue venue = venuelist.get(position);
+        holder.title.setText(venue.getVenueName());
 
         //add data to holder
-        // holder.genre.setText(movie.getGenre());
-        // holder.year.setText(movie.getYear());
+       // holder.genre.setText(movie.getGenre());
+       // holder.year.setText(movie.getYear());
     }
 
     @Override
     public int getItemCount() {
-        return sportsList.size();
+        return venuelist.size();
     }
 }
