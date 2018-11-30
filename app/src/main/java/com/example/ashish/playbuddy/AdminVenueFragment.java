@@ -43,6 +43,7 @@ public class AdminVenueFragment extends Fragment {
     private List<String> sportNameList=null;
     private DatabaseReference myDatabase;
     private ArrayAdapter<String> adapter;
+    public boolean classActive = false;
     //private  SportDatabase sportDatabase;
     //private VenueDatabase db;
     private int spinnerPosition;
@@ -67,7 +68,7 @@ public class AdminVenueFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View venueView= inflater.inflate(R.layout.fragment_admin_venue, container, false);
-
+        classActive = true;
         save=venueView.findViewById(R.id.venuesave);
         cancel=venueView.findViewById(R.id.venuecancle);
         venueEdit=venueView.findViewById(R.id.venueEdit);
@@ -175,7 +176,6 @@ public class AdminVenueFragment extends Fragment {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     Sport sport=new Sport();
-
                     try {
 
                         sport.setSportId(ds.getValue(Sport.class).getSportId());
@@ -196,13 +196,15 @@ public class AdminVenueFragment extends Fragment {
                     //          indusToast(getActivity(),"new news added");
                 }
                 //spinner adapter
-                adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        sportNameList);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                if(classActive) {
+                    adapter = new ArrayAdapter<String>(getActivity(),
+                            android.R.layout.simple_spinner_dropdown_item,
+                            sportNameList);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                //set the adapter on the spinner
-                sportsSpinner.setAdapter(adapter);
+                    //set the adapter on the spinner
+                    sportsSpinner.setAdapter(adapter);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -220,7 +222,7 @@ public class AdminVenueFragment extends Fragment {
         AdminVenueRecyclerViewfrag fr=new AdminVenueRecyclerViewfrag();
 
         FragmentManager fm = getFragmentManager();
-
+        classActive = false;
         fm.beginTransaction().replace(R.id.frame_container,fr).commit();
 
     }

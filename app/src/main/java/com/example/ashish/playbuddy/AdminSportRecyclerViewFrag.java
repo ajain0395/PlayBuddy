@@ -41,9 +41,9 @@ public class AdminSportRecyclerViewFrag extends Fragment {
     private RecyclerView recyclerView;
     private MySportsAdapter mAdapter;
     private FloatingActionButton addSports;
-    private     Sport selectedSport;
+    private Sport selectedSport;
     private List<Sport> sportsList = null;
-    private  List<Venue> venueList=null;
+   // private  List<Venue> venueList=null;
     private SportDatabase sportDatabase;
 
     /*//frag listener
