@@ -51,13 +51,15 @@ public class AdminEventFrag extends Fragment {
     private List<Venue> eventVenueList = null;
     private List<String> eventVenueNameList=null;
     private ArrayAdapter<String> eventadapter;
+    int selectedVenueIndex,selectedSportIndex;
     private ArrayAdapter<String> eventvenueadapter;
     public static final String LOGTAG = "indus";
 
+    String startTime,endTime;
     TextView eventdate,starttime,endtime;
     int mYear,mMonth,mDay,mHour,mMinute;
     EventDatabase db;
-    private int spinnerPosition;
+    private int sportspinnerPostion,venuespinnerPosition;
     public static final String LOGTAG12 = "indus";
 
     private AdminEventFrag.OnFragmentInteractionListener mListener;
@@ -97,9 +99,9 @@ public class AdminEventFrag extends Fragment {
         venueSpinner = rootview.findViewById(R.id.eventvenuelist);
 
         prepareSportData();
-        if(eventsportsList != null)
+        if(eventsportsList != null) {
             prepareVenueData(eventsportsList.get(sportsSpinner.getSelectedItemPosition()).getSportId());
-
+        }
         if(AdminEventRecyclerViewFrag.selectedEvent !=null)
         {
             //  remove.setVisibility(View.VISIBLE);
@@ -109,9 +111,12 @@ public class AdminEventFrag extends Fragment {
             description.setText(AdminEventRecyclerViewFrag.selectedEvent.getEventTitle());
             starttime.setText("Start Time\n" + AdminEventRecyclerViewFrag.selectedEvent.getEventStartTime());
             endtime.setText("End Time\n" + AdminEventRecyclerViewFrag.selectedEvent.getEventEndTime());
-            mDay = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getDay();
+            mDay = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getDate();
             mYear = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getYear();
             mMonth = AdminEventRecyclerViewFrag.selectedEvent.getEventDate().getMonth();
+            startTime = AdminEventRecyclerViewFrag.selectedEvent.getEventStartTime();
+            endTime = AdminEventRecyclerViewFrag.selectedEvent.getEventEndTime();
+
             eventdate.setText("Event Date\n" + mDay + "-"
             + mMonth + "-"
                     +mYear
@@ -120,15 +125,25 @@ public class AdminEventFrag extends Fragment {
             //fill here
         }
 
-        sportsSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        sportsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedSportId = eventsportsList.get(sportsSpinner.getSelectedItemPosition()).getSportId();
+                prepareVenueData(selectedSportId);
             }
-        });
-        venueSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+
+        venueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if(selectedSportId == null)
                 {
                     Toast.makeText(getActivity(), "Select Sport First", Toast.LENGTH_SHORT).show();
@@ -137,6 +152,12 @@ public class AdminEventFrag extends Fragment {
                     prepareVenueData(selectedSportId);
                 }
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
         });
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -149,33 +170,39 @@ public class AdminEventFrag extends Fragment {
                     String updatedTitle=title.getText().toString();
                     AdminEventRecyclerViewFrag.selectedEvent.setEventDescription(updatedDesc);
                     AdminEventRecyclerViewFrag.selectedEvent.setEventTitle(updatedTitle);
-                    AdminEventRecyclerViewFrag.selectedEvent.setEventStartTime(starttime.getText().toString());
-                    AdminEventRecyclerViewFrag.selectedEvent.setEventEndTime(endtime.getText().toString());
+                    AdminEventRecyclerViewFrag.selectedEvent.setEventStartTime(startTime);
+                    AdminEventRecyclerViewFrag.selectedEvent.setEventEndTime(endTime);
                     //AdminEventRecyclerViewFrag.selectedEvent.setSportId("");
-                    String updatedSportsId=eventsportsList.get(spinnerPosition).getSportId();
-                    String updatedVenueId=eventVenueList.get(spinnerPosition).getVenueId();
-                    AdminEventRecyclerViewFrag.selectedEvent.setSportId(updatedSportsId);
-                    AdminEventRecyclerViewFrag.selectedEvent.setVenueId(updatedVenueId);
-
                     Date saveDate = new Date();
                     saveDate.setDate(mDay);
                     saveDate.setMonth(mMonth);
                     saveDate.setYear(mYear);
                     AdminEventRecyclerViewFrag.selectedEvent.setEventDate(saveDate);
-                    AdminEventRecyclerViewFrag.selectedEvent.setVenueId("");
+
                     //AdminEventRecyclerViewFrag.selectedEvent.setEventDescription(new Date());
-                    db.updateEvent(AdminEventRecyclerViewFrag.selectedEvent);
-                    Toast.makeText(getActivity(), "Event Updated Successfully!!"+AdminEventRecyclerViewFrag.selectedEvent.getEventId(), Toast.LENGTH_SHORT).show();
+                    if(endTime != null &&startTime != null &&eventVenueList != null && eventsportsList !=null && eventVenueList.size() > 0 && eventsportsList.size() > 0) {
+                       sportspinnerPostion = sportsSpinner.getSelectedItemPosition();
+                       venuespinnerPosition = venueSpinner.getSelectedItemPosition();
+                        selectedSportId= eventsportsList.get(sportspinnerPostion).getSportId();
+                        selectedVenueId = eventVenueList.get(venuespinnerPosition).getVenueId();
+                        AdminEventRecyclerViewFrag.selectedEvent.setSportId(selectedSportId);
+                        AdminEventRecyclerViewFrag.selectedEvent.setVenueId(selectedVenueId);
+                        db.updateEvent(AdminEventRecyclerViewFrag.selectedEvent);
+                        Toast.makeText(getActivity(), "Event Updated Successfully!!"+AdminEventRecyclerViewFrag.selectedEvent.getEventId(), Toast.LENGTH_SHORT).show();
+                        callEventAdminRecyclerViewFrag();
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                    }
                     AdminEventRecyclerViewFrag.selectedEvent = null;
-                    callEventAdminRecyclerViewFrag();
                 }
 
 
                 else {
                     String heading = title.getText().toString();
                     String desc = description.getText().toString();
-                    String updatedSportsId=eventsportsList.get(spinnerPosition).getSportId();
-                    String updatedVenueId=eventVenueList.get(spinnerPosition).getVenueId();
+
                     if (heading.length() == 0 || desc.length() == 0) {
                         Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
                     } else {
@@ -183,20 +210,34 @@ public class AdminEventFrag extends Fragment {
                         AdminEventRecyclerViewFrag.selectedEvent = event;
                         AdminEventRecyclerViewFrag.selectedEvent.setEventDescription(desc);
                         AdminEventRecyclerViewFrag.selectedEvent.setEventTitle(heading);
-                        AdminEventRecyclerViewFrag.selectedEvent.setEventStartTime(starttime.getText().toString());
-                        AdminEventRecyclerViewFrag.selectedEvent.setEventEndTime(endtime.getText().toString());
+                        AdminEventRecyclerViewFrag.selectedEvent.setEventStartTime(startTime);
+                        AdminEventRecyclerViewFrag.selectedEvent.setEventEndTime(endTime);
                         //AdminEventRecyclerViewFrag.selectedEvent.setSportId("");
-                        AdminEventRecyclerViewFrag.selectedEvent.setSportId(updatedSportsId);
-                        AdminEventRecyclerViewFrag.selectedEvent.setVenueId(updatedVenueId);
+
+
                         Date saveDate = new Date();
                         saveDate.setDate(mDay);
                         saveDate.setMonth(mMonth);
                         saveDate.setYear(mYear);
                         AdminEventRecyclerViewFrag.selectedEvent.setEventDate(saveDate);
                         //AdminEventRecyclerViewFrag.selectedEvent.setVenueId("");
-                        db.write(event, "event");
+                        if(endTime != null &&startTime != null && eventVenueList != null && eventsportsList !=null && eventVenueList.size() > 0 && eventsportsList.size() > 0) {
+                            sportspinnerPostion = sportsSpinner.getSelectedItemPosition();
+                            venuespinnerPosition = venueSpinner.getSelectedItemPosition();
+                            selectedSportId= eventsportsList.get(sportspinnerPostion).getSportId();
+                            selectedVenueId = eventVenueList.get(venuespinnerPosition).getVenueId();
+                            AdminEventRecyclerViewFrag.selectedEvent.setSportId(selectedSportId);
+                            AdminEventRecyclerViewFrag.selectedEvent.setVenueId(selectedVenueId);
+                            db.write(AdminEventRecyclerViewFrag.selectedEvent, "event");
+                            AdminEventRecyclerViewFrag.selectedEvent=null;
+                            callEventAdminRecyclerViewFrag();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                        }
                         AdminEventRecyclerViewFrag.selectedEvent=null;
-                        callEventAdminRecyclerViewFrag();
+
                     }
                 }
 
@@ -242,7 +283,9 @@ public class AdminEventFrag extends Fragment {
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
 
-                                starttime.setText(hourOfDay + ":" + minute);
+                                starttime.setText("Start Time\n" +hourOfDay + ":" + minute);
+                                startTime = hourOfDay + ":" + minute;
+
                             }
                         }, mHour, mMinute, true);
                 timePickerDialog.show();
@@ -266,7 +309,8 @@ public class AdminEventFrag extends Fragment {
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
 
-                                endtime.setText(hourOfDay + ":" + minute);
+                                endtime.setText("End Time\n" +hourOfDay + ":" + minute);
+                                endTime = hourOfDay + ":" + minute;
                             }
                         }, mHour, mMinute, true);
                 timePickerDialog.show();
@@ -309,6 +353,8 @@ public class AdminEventFrag extends Fragment {
 
                 eventVenueList = new ArrayList<>();
                 eventVenueNameList = new ArrayList<>();
+                int count = 0;
+                selectedVenueIndex = -1;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     Venue venue = new Venue();
@@ -325,6 +371,11 @@ public class AdminEventFrag extends Fragment {
 
                     eventVenueNameList.add(venue.getVenueName());
                     eventVenueList.add(venue);
+                    if(AdminEventRecyclerViewFrag.selectedEvent != null && AdminEventRecyclerViewFrag.selectedEvent.getVenueId().equalsIgnoreCase(venue.getVenueId()))
+                    {
+                        selectedVenueIndex = count;
+                    }
+                count++;
                 }
 
                 if (eventvenueadapter != null) {
@@ -339,6 +390,10 @@ public class AdminEventFrag extends Fragment {
 
                     //set the adapter on the spinner
                     venueSpinner.setAdapter(eventvenueadapter);
+                    if(selectedVenueIndex != -1)
+                    {
+                //        venueSpinner.setSelection(selectedVenueIndex);
+                    }
                 }
             }
 
@@ -360,6 +415,8 @@ public class AdminEventFrag extends Fragment {
 
                 eventsportsList = new ArrayList<>();
                 eventsportNameList=new ArrayList<>();
+                selectedSportIndex = -1;
+                int count =0;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     Sport sport=new Sport();
@@ -377,6 +434,11 @@ public class AdminEventFrag extends Fragment {
 
                     eventsportNameList.add(sport.getSportName());
                     eventsportsList.add(sport);
+                    if(sport.getSportId().equalsIgnoreCase(AdminEventRecyclerViewFrag.selectedEvent.getSportId()))
+                    {
+                        selectedSportIndex = count;
+                    }
+                    count++;
                 }
 
                 if(eventadapter!=null)
@@ -392,6 +454,10 @@ public class AdminEventFrag extends Fragment {
 
                     //set the adapter on the spinner
                     sportsSpinner.setAdapter(eventadapter);
+                    if(selectedSportIndex != -1)
+                    {
+                        sportsSpinner.setSelection(selectedSportIndex);
+                    }
                 }
             }
             @Override

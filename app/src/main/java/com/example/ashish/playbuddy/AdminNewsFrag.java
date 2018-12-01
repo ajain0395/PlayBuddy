@@ -40,6 +40,7 @@ public class AdminNewsFrag extends Fragment {
     private List<String> newssportNameList=null;
     private ArrayAdapter<String> newsadapter;
     private int spinnerPosition;
+    private int selectedSportIndex = -1;
     private boolean classActive = false;
     private OnFragmentInteractionListener mListener;
 
@@ -76,6 +77,16 @@ public class AdminNewsFrag extends Fragment {
         {
           //  remove.setVisibility(View.VISIBLE);
             //save.setVisibility(View.INVISIBLE);
+           /* int index = 0;
+            for(int i = 0; i < newssportsList.size(); i++)
+            {
+                if(NewsAdminRecyclerViewFrag.selectedNews.getSportId().equalsIgnoreCase(newssportsList.get(i).getSportId()))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            sportsSpinner.setSelection(index);*/
             remove.setVisibility(View.VISIBLE);
             title.setText(NewsAdminRecyclerViewFrag.selectedNews.getNewsTitle());
             description.setText(NewsAdminRecyclerViewFrag.selectedNews.getNewsDescription());
@@ -90,6 +101,7 @@ public class AdminNewsFrag extends Fragment {
 
                 if(NewsAdminRecyclerViewFrag.selectedNews!=null)
                 {
+                    spinnerPosition = sportsSpinner.getSelectedItemPosition();
                     String updatedDesc=description.getText().toString();
                     String updatedTitle=title.getText().toString();
                     String updatedSportsId=newssportsList.get(spinnerPosition).getSportId();
@@ -100,6 +112,7 @@ public class AdminNewsFrag extends Fragment {
 
 
                 else {
+                    spinnerPosition = sportsSpinner.getSelectedItemPosition();
                     String heading = title.getText().toString();
                     String desc = description.getText().toString();
                     String updatedSportsId=newssportsList.get(spinnerPosition).getSportId();
@@ -142,6 +155,7 @@ public class AdminNewsFrag extends Fragment {
     }
     private void prepareNewsData() {
 
+        final int index = 0;
         myDatabase.child("sports").addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -149,6 +163,7 @@ public class AdminNewsFrag extends Fragment {
 
                 newssportsList = new ArrayList<>();
                 newssportNameList=new ArrayList<>();
+                int count = 0;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     Sport sport=new Sport();
@@ -166,6 +181,14 @@ public class AdminNewsFrag extends Fragment {
 
                     newssportNameList.add(sport.getSportName());
                     newssportsList.add(sport);
+
+                    if(NewsAdminRecyclerViewFrag.selectedNews !=null && sport.getSportId().equalsIgnoreCase(NewsAdminRecyclerViewFrag.selectedNews.getSportId()))
+                    {
+                        indusLog("index hit in adapter");
+
+                        selectedSportIndex = count;
+                    }
+                    count++;
                 }
 
                 if(newsadapter!=null)
@@ -181,6 +204,11 @@ public class AdminNewsFrag extends Fragment {
 
                     //set the adapter on the spinner
                     sportsSpinner.setAdapter(newsadapter);
+                    if(selectedSportIndex != -1)
+                    {
+                        indusLog("index hit in adapter");
+                        sportsSpinner.setSelection(selectedSportIndex);
+                    }
                 }
             }
             @Override

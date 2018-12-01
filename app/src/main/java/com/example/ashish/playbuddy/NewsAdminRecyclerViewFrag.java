@@ -158,6 +158,7 @@ public class NewsAdminRecyclerViewFrag extends Fragment {
                         news.setNewsTitle(ds.getValue(News.class).getNewsTitle());
                         news.setNewsDescription(ds.getValue(News.class).getNewsDescription());
                         news.setNewsDate(ds.getValue(News.class).getNewsDate());
+                        news.setSportId(ds.getValue(News.class).getSportId());
 
                     }
                     catch (Exception e)

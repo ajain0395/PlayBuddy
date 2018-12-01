@@ -44,6 +44,7 @@ public class AdminVenueFragment extends Fragment {
     private List<String> sportNameList=null;
     private DatabaseReference myDatabase;
     private ArrayAdapter<String> adapter;
+    int selectedSportIndex = -1;
     public boolean classActive = false;
     List <Transaction.Handler> handles= new ArrayList<>();
     //private  SportDatabase sportDatabase;
@@ -177,6 +178,7 @@ public class AdminVenueFragment extends Fragment {
                 //handles.add(myDatabase.child("sports").);
                 sportsList = new ArrayList<>();
                 sportNameList=new ArrayList<>();
+                int count = 0;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     Sport sport=new Sport();
@@ -193,6 +195,11 @@ public class AdminVenueFragment extends Fragment {
 
                     sportNameList.add(sport.getSportName());
                     sportsList.add(sport);
+                    if(AdminVenueRecyclerViewfrag.selectedVenue !=null && AdminVenueRecyclerViewfrag.selectedVenue.getSportId().equalsIgnoreCase(sport.getSportId()))
+                    {
+                       selectedSportIndex = count;
+                    }
+                count++;
                 }
 
                 if(adapter!=null)
@@ -208,6 +215,10 @@ public class AdminVenueFragment extends Fragment {
 
                     //set the adapter on the spinner
                     sportsSpinner.setAdapter(adapter);
+                    if(selectedSportIndex !=-1)
+                    {
+                        sportsSpinner.setSelection(selectedSportIndex);
+                    }
                 }
             }
             @Override

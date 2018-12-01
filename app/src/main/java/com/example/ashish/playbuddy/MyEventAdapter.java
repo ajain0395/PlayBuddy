@@ -15,11 +15,14 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public TextView date;
+        public TextView starttime,endtime;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.eventTileTitle);
             date = view.findViewById(R.id.eventTileDate);
+            starttime = view.findViewById(R.id.eventTilestarttime);
+            endtime = view.findViewById(R.id.eventTileendtime);
             //data to be displayed in tile
             //    add if any
         }
@@ -41,14 +44,16 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Event event = eventList.get(position);
-        holder.title.setText(event.getEventTitle());
-        holder.date.setText("Date: "+ event.getEventDate().getDay() + "-"
+        holder.title.setText("Title: " + event.getEventTitle());
+        holder.date.setText("Date: "+ event.getEventDate().getDate() + "-"
                             +event.getEventDate().getMonth() + "-"
-                            +event.getEventDate().getYear() + "\n"
-                            +"Time: "+ event.getEventStartTime());
-        //add data to holder
-        // holder.genre.setText(movie.getGenre());
-        // holder.year.setText(movie.getYear());
+                            +event.getEventDate().getYear()// + "\n"
+               //             +"Start Time: "+ event.getEventStartTime() + "\n"
+        //        +"End Time: "+ event.getEventEndTime()
+        );
+        holder.starttime.setText("Start Time: " +event.getEventStartTime());
+        holder.endtime.setText("End Time: " +event.getEventEndTime());
+
     }
 
     @Override

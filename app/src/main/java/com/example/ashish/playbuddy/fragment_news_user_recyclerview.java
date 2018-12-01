@@ -31,8 +31,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class fragment_news_user_recyclerview extends Fragment {
-    private DatabaseReference myDatabase;
+    private DatabaseReference myDatabase,interestDatabaseReference;
     public List<News> newsList = null;
+    public List<Interest> interestList = null;
     private RecyclerView recyclerView;
     private MyAdapter mAdapter;
     public static News selectedNews;
@@ -66,6 +67,8 @@ public class fragment_news_user_recyclerview extends Fragment {
         super.onCreate(savedInstanceState);
         Log.i("TAG","passed layout created");
         myDatabase = FirebaseDatabase.getInstance().getReference();
+        interestDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        prepareInterestData();
 
 
     }
@@ -136,6 +139,43 @@ public class fragment_news_user_recyclerview extends Fragment {
     }
 
 
+    private void prepareInterestData() {
+
+
+            interestDatabaseReference.child("interest").orderByChild("email").equalTo(NavigationDrawer.accountEmail).addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    interestList = new ArrayList<>();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                        Interest interest = new Interest();
+                        try {
+
+                            interest.setSportId(ds.getValue(Interest.class).getSportId());
+                            interest.setInterestId(ds.getValue(Interest.class).getInterestId());
+                            interest.setEmail(ds.getValue(Interest.class).getEmail());
+                        } catch (Exception e) {
+                            indusLog("Exception in fetching from Db");
+                            e.printStackTrace();
+                        }
+
+                        interestList.add(interest);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.w("error", "Failed to read value.", databaseError.toException());
+
+                }
+            });
+
+    }
+
+
     //to read data from database and set it to recyclerView Adapter
     private void prepareNewsData() {
 
@@ -162,8 +202,20 @@ public class fragment_news_user_recyclerview extends Fragment {
                     }
 
 
-                    newsList.add(news);
 
+                    boolean match = false;
+                    for (int j = 0; j < interestList.size();j++)
+                    {
+                        if(interestList.get(j).getSportId().equalsIgnoreCase(news.getSportId()))
+                        {
+                            match = true;
+                            break;
+                        }
+                    }
+                    if(match)
+                    {
+                        newsList.add(news);
+                    }
                 }
                 newsList.sort(cmp);
                 if(mAdapter!=null)
