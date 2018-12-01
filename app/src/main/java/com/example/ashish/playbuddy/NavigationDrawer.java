@@ -238,7 +238,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 break;
 
                             case 5:
-
+                                fr = new UserFindBuddyFrag();
                                 indusLog("find buddy");
                                 break;
                             case 6:

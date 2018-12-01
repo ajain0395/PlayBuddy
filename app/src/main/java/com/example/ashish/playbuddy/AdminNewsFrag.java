@@ -40,7 +40,7 @@ public class AdminNewsFrag extends Fragment {
     private List<String> newssportNameList=null;
     private ArrayAdapter<String> newsadapter;
     private int spinnerPosition;
-
+    private boolean classActive = false;
     private OnFragmentInteractionListener mListener;
 
     public AdminNewsFrag() {
@@ -61,6 +61,7 @@ public class AdminNewsFrag extends Fragment {
         // Inflate the layout for this fragment
         View rootview=inflater.inflate(R.layout.fragment_admin_news, container, false);
 
+        classActive = true;
         //find elements on view.
         title=rootview.findViewById(R.id.title);
         description=rootview.findViewById(R.id.description);
@@ -172,13 +173,15 @@ public class AdminNewsFrag extends Fragment {
                     //          indusToast(getActivity(),"new news added");
                 }
                 //spinner adapter
-                newsadapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        newssportNameList);
-                newsadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                if(classActive) {
+                    newsadapter = new ArrayAdapter<String>(getContext(),
+                            android.R.layout.simple_spinner_dropdown_item,
+                            newssportNameList);
+                    newsadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                //set the adapter on the spinner
-                sportsSpinner.setAdapter(newsadapter);
+                    //set the adapter on the spinner
+                    sportsSpinner.setAdapter(newsadapter);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -200,6 +203,7 @@ public class AdminNewsFrag extends Fragment {
         NewsAdminRecyclerViewFrag fr=new NewsAdminRecyclerViewFrag();
 
         FragmentManager fm = getFragmentManager();
+        classActive = false;
 
         fm.beginTransaction().replace(R.id.frame_container,fr).commit();
 

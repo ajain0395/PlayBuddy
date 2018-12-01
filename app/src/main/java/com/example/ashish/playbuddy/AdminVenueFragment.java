@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class AdminVenueFragment extends Fragment {
     private DatabaseReference myDatabase;
     private ArrayAdapter<String> adapter;
     public boolean classActive = false;
+    List <Transaction.Handler> handles= new ArrayList<>();
     //private  SportDatabase sportDatabase;
     //private VenueDatabase db;
     private int spinnerPosition;
@@ -168,9 +170,11 @@ public class AdminVenueFragment extends Fragment {
 
         myDatabase.child("sports").addValueEventListener(new ValueEventListener() {
 
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                //handles.add(myDatabase.child("sports").);
                 sportsList = new ArrayList<>();
                 sportNameList=new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
