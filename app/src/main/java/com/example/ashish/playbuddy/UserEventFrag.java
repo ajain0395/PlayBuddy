@@ -37,6 +37,8 @@ public class UserEventFrag extends Fragment {
     public List<Event> eventList;
  //   public List<Sport> sportList = null;
     public List<Interest> interestList = null;
+    AlertDialog.Builder showEvent;
+    AlertDialog displayAlert;
 
     String sportName,venueName;
 
@@ -83,6 +85,8 @@ public class UserEventFrag extends Fragment {
         recyclerView = mview.findViewById(R.id.recycler_view_user_event2);
         prepareEventData();
 
+        sportName = new String();
+        venueName = new String();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -96,13 +100,51 @@ public class UserEventFrag extends Fragment {
 
 
                 selectedEvent = eventList.get(position);
+                sportName = new String("");
+                venueName = new String("");
 
                 //String sportid = selectedEvent.getSportId();
-                String sportName3 =  prepareSportName(selectedEvent.getSportId());
-                String venueName3 = preparevenueName(selectedEvent.getVenueId());
 
-                AlertDialog.Builder showEvent = new AlertDialog.Builder(getActivity());
-                showEvent.setMessage("\n"
+                String sportName3 =  prepareSportName(selectedEvent.getSportId(), new MyCallbackgetsName() {
+                    @Override
+                    public void onCallback(String value) {
+                        sportName = value;
+
+                        //sportName.concat(value);
+                        /*sportName = value;
+                                showEvent.setMessage("\n"
+                                +"Date: "+selectedEvent.getEventDate().getDate()
+                                +"-"+ selectedEvent.getEventDate().getMonth()
+                                +"-"+ selectedEvent.getEventDate().getYear()
+                                +"\nSport Name: "+ sportName
+                                +"\nvenue: "+ venueName
+                                +"\nEvent Start Time: "+ selectedEvent.getEventStartTime()
+                                +"\nEvent End Time: "+ selectedEvent.getEventEndTime()
+                                + "\n\n" +selectedEvent.getEventDescription());
+                        */
+                    }
+                });
+                String venueName3 = preparevenueName(selectedEvent.getVenueId(), new MyCallbackgetvName() {
+                    @Override
+                    public void onCallback(String value) {
+                        venueName = value;
+                        //venueName.concat(value);
+                        showEvent.setMessage("\n"
+                                +"Date: "+selectedEvent.getEventDate().getDate()
+                                +"-"+ selectedEvent.getEventDate().getMonth()
+                                +"-"+ selectedEvent.getEventDate().getYear()
+                                +"\nSport Name: "+ sportName
+                                +"\nVenue: "+ venueName
+                                +"\nEvent Start Time: "+ selectedEvent.getEventStartTime()
+                                +"\nEvent End Time: "+ selectedEvent.getEventEndTime()
+                                + "\n\n" +selectedEvent.getEventDescription());
+                        displayAlert = showEvent.create();
+                        displayAlert.show();
+                    }
+                });
+
+                showEvent = new AlertDialog.Builder(getActivity());
+                /*showEvent.setMessage("\n"
                         +"Date: "+selectedEvent.getEventDate().getDate()
                         +"-"+ selectedEvent.getEventDate().getMonth()
                         +"-"+ selectedEvent.getEventDate().getYear()
@@ -110,7 +152,7 @@ public class UserEventFrag extends Fragment {
                         +"\nvenue: "+ venueName
                         +"\nEvent Start Time: "+ selectedEvent.getEventStartTime()
                         +"\nEvent End Time: "+ selectedEvent.getEventEndTime()
-                        + "\n\n" +selectedEvent.getEventDescription());
+                        + "\n\n" +selectedEvent.getEventDescription());*/
                 showEvent.setTitle(selectedEvent.getEventTitle());
 
                 showEvent.setNegativeButton(
@@ -121,8 +163,8 @@ public class UserEventFrag extends Fragment {
                             }
                         });
 
-                AlertDialog displayAlert = showEvent.create();
-                displayAlert.show();
+          //      displayAlert = showEvent.create();
+          //      displayAlert.show();
 
 
             }
@@ -172,41 +214,6 @@ public class UserEventFrag extends Fragment {
         });
 
     }
-  /*  private void prepareInterestData() {
-
-
-        usereventDatabaseReference.child("interest").orderByChild("email").equalTo(NavigationDrawer.accountEmail).addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                interestList = new ArrayList<>();
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                    Interest interest = new Interest();
-                    try {
-
-                        interest.setSportId(ds.getValue(Interest.class).getSportId());
-                        interest.setInterestId(ds.getValue(Interest.class).getInterestId());
-                        interest.setEmail(ds.getValue(Interest.class).getEmail());
-                    } catch (Exception e) {
-                        indusLog("Exception in fetching from Db");
-                        e.printStackTrace();
-                    }
-
-                    interestList.add(interest);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("error", "Failed to read value.", databaseError.toException());
-
-            }
-        });
-
-    }*/
 
     private void prepareEventData() {
         myDatabase.child("event").addValueEventListener(new ValueEventListener() {
@@ -272,9 +279,9 @@ public class UserEventFrag extends Fragment {
     }
 
 
-    private String preparevenueName(final String venueId) {
+    private String preparevenueName(final String venueId, final MyCallbackgetvName mycallback) {
       //  sportName = null;
-        venueName = null;
+       // venueName = null;
         myDatabase.child("venue").orderByChild("venueId").equalTo(venueId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -296,8 +303,9 @@ public class UserEventFrag extends Fragment {
 
                         sportName = sport.getSportName();
                     }*/
-                    venueName = venue.getVenueName();
-                    Log.i("TAG",venueName);
+
+                    mycallback.onCallback(venue.getVenueName());
+                  //  Log.i("TAG",venueName);
                     //   sportList.add(sport);
                 }
             }
@@ -312,8 +320,8 @@ public class UserEventFrag extends Fragment {
     }
 
 
-    private String prepareSportName(final String sportId) {
-        sportName = null;
+    private String prepareSportName(final String sportId,final MyCallbackgetsName mycallback) {
+   //     sportName = null;
 
         myDatabase.child("sports").orderByChild("sportId").equalTo(sportId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -335,7 +343,8 @@ public class UserEventFrag extends Fragment {
 
                         sportName = sport.getSportName();
                     }*/
-                    sportName = sport.getSportName();
+
+                    mycallback.onCallback(sport.getSportName());
                  //   sportList.add(sport);
                 }
             }
@@ -353,6 +362,13 @@ public class UserEventFrag extends Fragment {
 
 
 
+
+    public interface MyCallbackgetsName {
+        void onCallback(String value);
+    }
+    public interface MyCallbackgetvName {
+        void onCallback(String value);
+    }
 
 
 
