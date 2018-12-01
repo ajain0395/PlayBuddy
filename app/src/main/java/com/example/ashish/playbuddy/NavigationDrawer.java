@@ -102,7 +102,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
 
         } else {
             user(toolbar, savedInstanceState);
-            fr=new NewsAdminRecyclerViewFrag();
+            fr=new UserInterestFrag();
             fragmentCall(fr);
         }
 
@@ -231,6 +231,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 break;
                             case 3:
                                 indusLog("Events");
+                                fr = new UserEventFrag();
                                 break;
                             case 4:
                                 fr = new UserTImeLineRVFrag();

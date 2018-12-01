@@ -70,7 +70,6 @@ public class fragment_news_user_recyclerview extends Fragment {
         interestDatabaseReference = FirebaseDatabase.getInstance().getReference();
         prepareInterestData();
 
-
     }
 
     @Override
@@ -81,8 +80,9 @@ public class fragment_news_user_recyclerview extends Fragment {
         final View mview = inflater.inflate(R.layout.fragment_fragment_news_user_recyclerview, container, false);
 
         //bring data from database.
-        prepareNewsData();
 
+        //prepareInterestData();
+        prepareNewsData();
         recyclerView = mview.findViewById(R.id.recycler_view_user_news);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -124,10 +124,7 @@ public class fragment_news_user_recyclerview extends Fragment {
                 AlertDialog displayAlert = showNews.create();
                 displayAlert.show();
 
-                ///////
 
-
-                // Toast.makeText(getActivity(), news + "", Toast.LENGTH_SHORT).show();
             }
             public void onLongClick(View view, int position) {
 
@@ -142,7 +139,7 @@ public class fragment_news_user_recyclerview extends Fragment {
     private void prepareInterestData() {
 
 
-            interestDatabaseReference.child("interest").orderByChild("email").equalTo(NavigationDrawer.accountEmail).addValueEventListener(new ValueEventListener() {
+            interestDatabaseReference.child("interest").orderByChild("email").equalTo(NavigationDrawer.accountEmail).addListenerForSingleValueEvent(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -163,6 +160,10 @@ public class fragment_news_user_recyclerview extends Fragment {
 
                         interestList.add(interest);
                     }
+                    /*System.out.print("***********"+"\n\n\n\n");
+                    //for (int i=0;i<interestList.size();i++) {
+                        System.out.println(interestList.get(0));
+                    //s}*/
 
                 }
 
@@ -193,7 +194,7 @@ public class fragment_news_user_recyclerview extends Fragment {
                         news.setNewsTitle(ds.getValue(News.class).getNewsTitle());
                         news.setNewsDescription(ds.getValue(News.class).getNewsDescription());
                         news.setNewsDate(ds.getValue(News.class).getNewsDate());
-
+                        news.setSportId(ds.getValue(News.class).getSportId());
                     }
                     catch (Exception e)
                     {
@@ -215,6 +216,7 @@ public class fragment_news_user_recyclerview extends Fragment {
                     if(match)
                     {
                         newsList.add(news);
+
                     }
                 }
                 newsList.sort(cmp);
