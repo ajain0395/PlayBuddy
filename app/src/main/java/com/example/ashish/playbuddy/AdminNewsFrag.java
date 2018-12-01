@@ -185,7 +185,6 @@ public class AdminNewsFrag extends Fragment {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
                 Log.w("error", "Failed to read value.", databaseError.toException());
 
             }
