@@ -234,7 +234,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 fr = new UserEventFrag();
                                 break;
                             case 4:
-                                fr = new UserTImeLineRVFrag();
+                          //      fr = new UserTImeLineRVFrag();
                                 indusLog("play area");
                                 break;
 
@@ -262,6 +262,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 break;
                         }
                         if(fr!=null) {
+                            UserTImeLineRVFrag.classActive = false;
                             fragmentCall(fr);
                         }
                         return false;

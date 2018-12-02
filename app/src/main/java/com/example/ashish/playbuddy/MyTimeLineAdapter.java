@@ -177,7 +177,7 @@ public class MyTimeLineAdapter extends RecyclerView.Adapter<MyTimeLineAdapter.My
     private void getPlayAreacount( final String slotId,final MyViewHolder holder,final MycallbackgetCount mycallback) {
 
         if (slotId != null) {
-            myDatabase.child("playarea").orderByChild("slotId").equalTo(slotId).addListenerForSingleValueEvent(new ValueEventListener() {
+            myDatabase.child("playarea").orderByChild("slotId").equalTo(slotId).addValueEventListener(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -199,12 +199,13 @@ public class MyTimeLineAdapter extends RecyclerView.Adapter<MyTimeLineAdapter.My
                             Log.e("INDUS", "onDataChange: Exception in fetching from Db");
                             e.printStackTrace();
                         }
-                        if (pa.comparePlaySportVenueSlot(PlayArea.selectedSportId,PlayArea.selectedVenueId,slotId)) {
+                        if (UserTImeLineRVFrag.classActive && pa.comparePlaySportVenueSlot(PlayArea.selectedSportId,PlayArea.selectedVenueId,slotId)) {
                             tilecount++;
                         }
 
                     }
-                    mycallback.onCallback(holder,tilecount);
+                    if(UserTImeLineRVFrag.classActive)
+                        mycallback.onCallback(holder,tilecount);
 
                 }
 
@@ -223,7 +224,7 @@ public class MyTimeLineAdapter extends RecyclerView.Adapter<MyTimeLineAdapter.My
             Log.i("TAG","PlayerExist inside");
 
             PlayArea.playerExist = false;
-            myDatabase.child("playarea").orderByChild("email").equalTo(NavigationDrawer.accountEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+            myDatabase.child("playarea").orderByChild("email").equalTo(NavigationDrawer.accountEmail).addValueEventListener(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -245,7 +246,7 @@ public class MyTimeLineAdapter extends RecyclerView.Adapter<MyTimeLineAdapter.My
                             Log.e("INDUS", "onDataChange: Exception in fetching from Db");
                             e.printStackTrace();
                         }
-                        if (pa.comparePlayarea(NavigationDrawer.accountEmail
+                        if (UserTImeLineRVFrag.classActive && pa.comparePlayarea(NavigationDrawer.accountEmail
                         ,PlayArea.selectedSportId
                                 ,PlayArea.selectedVenueId,
                                 slotId

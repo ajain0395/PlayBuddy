@@ -97,7 +97,8 @@ public class PlayAreaDatabase {
                             Log.e("INDUS", "onDataChange: Exception in fetching from Db");
                             e.printStackTrace();
                         }
-                        if (playArea.comparePlayarea(pa)) {
+
+                        if (UserTImeLineRVFrag.classActive && playArea.comparePlayarea(pa)) {
                             PlayArea.selectedPlayarea = pa;
                             mycallback.onCallback(pa);
                             Log.i("TAG", "Set");

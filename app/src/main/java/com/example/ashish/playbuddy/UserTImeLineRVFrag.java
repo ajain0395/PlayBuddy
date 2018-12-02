@@ -38,6 +38,7 @@ public class UserTImeLineRVFrag extends Fragment {
     private MyTimeLineAdapter mAdapter;
     //FloatingActionButton add;
     public static TimeLine selectedTile;
+    static boolean classActive = false;
     //public static String title,description;
     // Database db;
 
@@ -78,6 +79,7 @@ public class UserTImeLineRVFrag extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        classActive = true;
         Log.i("TAG","passed layout 0");
         View mview = inflater.inflate(R.layout.fragment_user_time_line_rv, container, false);
 
@@ -152,14 +154,16 @@ public class UserTImeLineRVFrag extends Fragment {
                 {
                     //          indusToast(getActivity(),"new news added");
                 }
-                mAdapter = new MyTimeLineAdapter(timeLineList, new ClickListener() {
-                    @Override
-                    public void onPositionClicked(int position) {
+                if(UserTImeLineRVFrag.classActive) {
+                    mAdapter = new MyTimeLineAdapter(timeLineList, new ClickListener() {
+                        @Override
+                        public void onPositionClicked(int position) {
 
-                    }
-                });
+                        }
+                    });
 
-                recyclerView.setAdapter(mAdapter);
+                    recyclerView.setAdapter(mAdapter);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
