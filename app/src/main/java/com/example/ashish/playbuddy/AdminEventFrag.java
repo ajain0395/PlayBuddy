@@ -149,7 +149,7 @@ public class AdminEventFrag extends Fragment {
                     Toast.makeText(getActivity(), "Select Sport First", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    prepareVenueData(selectedSportId);
+                //    prepareVenueData(selectedSportId);
                 }
             }
 
@@ -346,7 +346,7 @@ public class AdminEventFrag extends Fragment {
 
         if(selectedSportId != null)
         {
-        venueDatabase.child("venue").orderByChild("sportId").equalTo(selectedSportId).addValueEventListener(new ValueEventListener() {
+        venueDatabase.child("venue").orderByChild("sportId").equalTo(selectedSportId).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -392,7 +392,7 @@ public class AdminEventFrag extends Fragment {
                     venueSpinner.setAdapter(eventvenueadapter);
                     if(selectedVenueIndex != -1)
                     {
-                //        venueSpinner.setSelection(selectedVenueIndex);
+                        venueSpinner.setSelection(selectedVenueIndex);
                     }
                 }
             }

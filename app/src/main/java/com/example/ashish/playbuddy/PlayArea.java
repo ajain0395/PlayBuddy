@@ -1,14 +1,77 @@
 package com.example.ashish.playbuddy;
 
+import android.util.Log;
+
 public class PlayArea {
+    String playAreaId;
     String sportId;
     String email;
     String venueId;
-    String playAreaId;
     String slotId;
     static String selectedSportId = null;
     static String selectedVenueId = null;
+    static PlayArea selectedPlayarea = null;
+    static boolean playerExist = false;
 
+    public PlayArea(String playAreaId,String email,String sportId,String venueId,String slotId){
+        setPlayAreaId(playAreaId);
+        setSlotId(slotId);
+        setVenueId(venueId);
+        setEmail(email);
+        setSportId(sportId);
+    }
+
+    boolean comparePlayarea(String email,String sportId,String venueId,String slotId)
+    {
+        Log.i("tag", "comparePlayarea: " +
+                email + getEmail()+
+                slotId + getSlotId() +
+                venueId + getVenueId() +
+                sportId + getSportId());
+
+        if(getEmail().equalsIgnoreCase(email) &&
+                getSportId().equalsIgnoreCase(sportId) &&
+                getSlotId().equalsIgnoreCase(slotId)&&
+                getVenueId().equalsIgnoreCase(venueId)
+                )
+            return true;
+        return false;
+    }
+
+    boolean comparePlayarea(PlayArea pa)
+    {
+        Log.i("tag", "comparePlayarea: " +
+                pa.getEmail() + getEmail()+
+        pa.getSlotId() + getSlotId() +
+        pa.getVenueId() + getVenueId() +
+        pa.getSportId() + getSportId());
+
+        if(pa.getEmail().equalsIgnoreCase(getEmail()) &&
+                pa.getSportId().equalsIgnoreCase(getSportId()) &&
+                        pa.getSlotId().equalsIgnoreCase(getSlotId())&&
+                pa.getVenueId().equalsIgnoreCase(getVenueId())
+                )
+            return true;
+        return false;
+    }
+    boolean comparePlaySportVenueSlot(String sportId,String venueId,String slotId)
+    {
+        if(getSportId().equalsIgnoreCase(sportId) && getSlotId().equalsIgnoreCase(slotId) && getVenueId().equalsIgnoreCase(venueId))
+            return true;
+        return false;
+    }
+
+    public PlayArea(String email,String sportId,String venueId,String slotId){
+   //     setPlayAreaId(playAreaId);
+        setSlotId(slotId);
+        setVenueId(venueId);
+        setEmail(email);
+        setSportId(sportId);
+    }
+    public PlayArea()
+    {
+
+    }
     public String getSportId() {
         return sportId;
     }
