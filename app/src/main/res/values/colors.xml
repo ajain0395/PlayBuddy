@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#292b3d</color>
+    <color name="colorAccent">#ff4081</color>
     <color name="title">#222222</color>
-    <color name="myColor">#FF1C9997</color>
+    <color name="myColor">#292b3d</color>
+
 
     <color name="graylight">#FAFAFA</color>
     <color name="startblue">#44b7ed</color>
@@ -28,4 +29,5 @@
     <color name="black">#000000</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="theme_color">#202a36</color>
 </resources>

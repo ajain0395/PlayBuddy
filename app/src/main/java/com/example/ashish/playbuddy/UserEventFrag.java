@@ -258,7 +258,7 @@ public class UserEventFrag extends Fragment {
                     {
                     }*/
                 }
-                indusLog(eventList.size() + " " + eventList.get(0).getEventTitle());
+            //    indusLog(eventList.size() + " " + eventList.get(0).getEventTitle());
                 eventList.sort(cmp);
                 if(mAdapter!=null)
                 {

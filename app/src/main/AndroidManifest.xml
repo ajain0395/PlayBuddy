@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-feature android:name="android.hardware.screen.portrait" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -14,9 +16,10 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
 
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             >
             <intent-filter>
@@ -29,12 +32,14 @@
         <activity android:name=".NavigationDrawer"
             android:label="@string/title_activity_admin"
             android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity android:name=".Login_Main"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+           <!-- android:theme="@style/AppTheme"-->
 
 
     </application>
