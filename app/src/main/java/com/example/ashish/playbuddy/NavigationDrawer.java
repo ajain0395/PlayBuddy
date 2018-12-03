@@ -127,7 +127,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
-                .withSliderBackgroundColor(Color.parseColor("#3f42a4"))
+                .withSliderBackgroundColor(Color.parseColor("#202a36"))//#3f42a4
                 .addDrawerItems(new PrimaryDrawerItem().withName("Sports"),
                         new PrimaryDrawerItem().withName("Venue"),
                         new PrimaryDrawerItem().withName("News"),
@@ -197,7 +197,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
         result = new DrawerBuilder().withActivity(this)
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
-                .withSliderBackgroundColor(Color.parseColor("#3f42a4"))
+                .withSliderBackgroundColor(Color.parseColor("#202a36"))
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Interest"),
 

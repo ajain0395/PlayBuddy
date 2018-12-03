@@ -33,7 +33,7 @@
             android:label="@string/title_activity_admin"
             android:screenOrientation="portrait"
 
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/MaterialDrawerTheme.TranslucentStatus"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity android:name=".Login_Main"
