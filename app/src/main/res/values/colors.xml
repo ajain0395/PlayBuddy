@@ -3,14 +3,8 @@
 <!--
     <color name="colorPrimary">#3F51B5</color>
 -->
-    <color name="colorPrimary">#ff4081</color>
 
-    <color name="colorPrimaryDark">#292b3d</color>
-    <color name="colorAccent">#ff4081</color>
-    <color name="title">#222222</color>
     <color name="myColor">#292b3d</color>
-
-
     <color name="graylight">#FAFAFA</color>
     <color name="startblue">#44b7ed</color>
     <color name="endblue">#0bcce6</color>
@@ -31,7 +25,17 @@
     <color name="blue">#0000FF</color>
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
-
     <color name="black_overlay">#66000000</color>
+
+
+    <!--used colors-->
+    <color name="nav_background_col">#484848</color>
+    <color name="colorPrimary">#ff4081</color>
+    <color name="colorPrimaryDark">#202a36</color><!--#292b3d-->
+    <color name="colorAccent">#ff4081</color>
+    <color name="title">#222222</color>
     <color name="theme_color">#202a36</color>
+
+
+
 </resources>
