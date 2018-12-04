@@ -199,9 +199,9 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                 .withAccountHeader(headerResult)
                 .withSliderBackgroundColor(Color.parseColor("#3f42a4"))
                 .addDrawerItems(
+                        new PrimaryDrawerItem().withName("News"),
                         new PrimaryDrawerItem().withName("Interest"),
 
-                        new PrimaryDrawerItem().withName("News"),
                         new PrimaryDrawerItem().withName("Events"),
                         new PrimaryDrawerItem().withName("Find Buddy"),
                         new SecondaryDrawerItem().withName("About us"),
@@ -221,12 +221,13 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (position) {
                             case 1:
-                                indusLog("interests");
-                                fr=new UserInterestFrag();
-                                break;
-                            case 2:
                                 fr = new fragment_news_user_recyclerview();
                                 indusLog("news");
+
+                                break;
+                            case 2:
+                                indusLog("interests");
+                                fr=new UserInterestFrag();
                                 break;
                             case 3:
                                 indusLog("Events");
