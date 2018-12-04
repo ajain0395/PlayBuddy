@@ -33,4 +33,11 @@ The Play Buddy is a app for IIIT-Delhi persons for getting someone from IIIT-Del
     <string name="contactus">
 Admin - Admin_Name\nadmin@iiitd.ac.in \nMobile number 9876543212 , 9876543234
 </string>
+    <string name="venue">Venue</string>
+    <string name="enter_venue">Enter Venue</string>
+    <string name="select_venue">Select Venue</string>
+    <string name="save">Save</string>
+    <string name="remove">Remove</string>
+    <string name="cancel">Cancel</string>
+    <string name="sports">Sports</string>
 </resources>

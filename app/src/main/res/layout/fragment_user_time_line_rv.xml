@@ -9,6 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserTImeLineRVFrag">
+
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,48 +20,74 @@
         tools:showIn="@layout/fragment_news_admin_recycler_view">
 
 
-        <RelativeLayout
-            android:id="@+id/timelineHeading"
+        <TextView
+            android:id="@+id/timelineheadingheading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Time Slots"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/timelinesportnamevenue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/timelinerecyclerviewlayout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toTopOf="@id/timelinelower"
-            app:layout_constraintTop_toBottomOf="@id/timelineHeading">
+            app:layout_constraintTop_toBottomOf="@+id/timelineheadingheading">
 
             <TextView
-                android:id="@+id/timelineheadingheading"
+                android:id="@+id/timelinesportname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Time Slots"
-                android:textColor="@color/black"
-                android:textSize="50sp"
-                android:textStyle="bold" />
+                android:text="SportName"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/timelinevenuename"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_below="@id/timelineheadingheading"
-                android:id="@+id/recycler_view_timelinetiles"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/timelinevenuename"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:scrollbars="vertical"
+                android:text="Venue Name"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@id/timelinesportname"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
-                />
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/timelinelower"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_timelinetiles"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/timelinechangesportvenue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timelinesportnamevenue" />
+
+        <Button
+            android:id="@+id/timelinechangesportvenue"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:text="Change Sport or Venue"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        </RelativeLayout>
 
     </android.support.constraint.ConstraintLayout>
 

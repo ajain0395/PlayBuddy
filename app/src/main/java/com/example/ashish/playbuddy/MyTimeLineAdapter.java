@@ -76,7 +76,7 @@ public class MyTimeLineAdapter extends RecyclerView.Adapter<MyTimeLineAdapter.My
 
             if (v.getId() == minus.getId()) {
 
-                Toast.makeText(v.getContext(), "minus pressed on " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+         //       Toast.makeText(v.getContext(), "minus pressed on " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 PlayArea pa = new PlayArea(NavigationDrawer.accountEmail,PlayArea.selectedSportId,PlayArea.selectedVenueId,timeLineList.get(getAdapterPosition()).getSlotId());
                 playAreaDB.remove(pa);
                 plus.setEnabled(true);
@@ -87,7 +87,7 @@ public class MyTimeLineAdapter extends RecyclerView.Adapter<MyTimeLineAdapter.My
                 minus.setEnabled(true);
                 PlayArea pa = new PlayArea(NavigationDrawer.accountEmail,PlayArea.selectedSportId,PlayArea.selectedVenueId,timeLineList.get(getAdapterPosition()).getSlotId());
                 playAreaDB.write(pa,"playarea");
-                Toast.makeText(v.getContext(), "plus PRESSED on " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+      //          Toast.makeText(v.getContext(), "plus PRESSED on " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 
             }
 

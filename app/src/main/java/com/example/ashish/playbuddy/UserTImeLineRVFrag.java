@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +41,8 @@ public class UserTImeLineRVFrag extends Fragment {
     //FloatingActionButton add;
     public static TimeLine selectedTile;
     static boolean classActive = false;
+    Button changesport;
+    TextView sportNameshow,venueNameshow;
     //public static String title,description;
     // Database db;
 
@@ -79,6 +83,7 @@ public class UserTImeLineRVFrag extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         classActive = true;
         Log.i("TAG","passed layout 0");
         View mview = inflater.inflate(R.layout.fragment_user_time_line_rv, container, false);
@@ -87,8 +92,28 @@ public class UserTImeLineRVFrag extends Fragment {
         prepareTimeLine();
 
         recyclerView = mview.findViewById(R.id.recycler_view_timelinetiles);
-     //   addNews=mview.findViewById(R.id.addNews);
+        changesport = mview.findViewById(R.id.timelinechangesportvenue);
+        venueNameshow = mview.findViewById(R.id.timelinevenuename);
+        sportNameshow = mview.findViewById(R.id.timelinesportname);
 
+        prepareSportName(PlayArea.selectedSportId, new MyCallbackgetsName() {
+            @Override
+            public void onCallback(String value) {
+                sportNameshow.setText("Sport: " + value);
+            }
+        });
+        preparevenueName(PlayArea.selectedVenueId, new MyCallbackgetvName() {
+            @Override
+            public void onCallback(String value) {
+                venueNameshow.setText("Venue: " +value);
+            }
+        });
+        changesport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callUserFindBuddyFrag();
+            }
+        });
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -175,13 +200,15 @@ public class UserTImeLineRVFrag extends Fragment {
 
     }
 
- /*   // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    void callUserFindBuddyFrag()
+    {
+        UserFindBuddyFrag fr=new UserFindBuddyFrag();
+
+        FragmentManager fm = getFragmentManager();
+        classActive = false;
+
+        fm.beginTransaction().replace(R.id.frame_container,fr).commit();
     }
-*/
 /*    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -199,6 +226,97 @@ public class UserTImeLineRVFrag extends Fragment {
         super.onDetach();
         mListener = null;
     }*/
+
+    private void preparevenueName(final String venueId, final MyCallbackgetvName mycallback) {
+        //  sportName = null;
+        // venueName = null;
+        myDatabase.child("venue").orderByChild("venueId").equalTo(venueId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //    sportList = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    Venue venue = new Venue();
+                    try {
+                        venue = ds.getValue(Venue.class);
+                      /*  venue.setSportId(ds.getValue(Venue.class).getSportId());
+                        sport.setSportName(ds.getValue(Sport.class).getSportName());
+*/
+                    } catch (Exception e) {
+                        indusLog("Exception in fetching from Db");
+                        e.printStackTrace();
+                    }
+                    /*if (sportid.equalsIgnoreCase(sport.getSportId())) {
+
+                        sportName = sport.getSportName();
+                    }*/
+
+                    mycallback.onCallback(venue.getVenueName());
+                    //  Log.i("TAG",venueName);
+                    //   sportList.add(sport);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Log.w("error", "Failed to read value.", databaseError.toException());
+
+            }
+        });
+       // return venueName;
+    }
+
+
+    private void prepareSportName(final String sportId,final MyCallbackgetsName mycallback) {
+        //     sportName = null;
+
+        myDatabase.child("sports").orderByChild("sportId").equalTo(sportId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //     sportList = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    Sport sport = new Sport();
+                    try {
+                        sport.setSportId(ds.getValue(Sport.class).getSportId());
+                        sport.setSportName(ds.getValue(Sport.class).getSportName());
+
+                    } catch (Exception e) {
+                        indusLog("Exception in fetching from Db");
+                        e.printStackTrace();
+                    }
+                    /*if (sportid.equalsIgnoreCase(sport.getSportId())) {
+
+                        sportName = sport.getSportName();
+                    }*/
+
+                    mycallback.onCallback(sport.getSportName());
+                    //   sportList.add(sport);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Log.w("error", "Failed to read value.", databaseError.toException());
+
+            }
+        });
+      //  return sportName;
+    }
+
+
+
+
+
+
+    public interface MyCallbackgetsName {
+        void onCallback(String value);
+    }
+    public interface MyCallbackgetvName {
+        void onCallback(String value);
+    }
 
     public void indusLog(String message)
     {

@@ -10,15 +10,14 @@
     <TextView
         android:id="@+id/findbuddyheading"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:text="Find Buddy"
+        android:textStyle="bold"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="@dimen/material_drawer_account_header_compact"
-        app:layout_constraintBottom_toTopOf="@+id/findbuddyspinerlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,12 +44,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/findbuddyselectSlot"
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/findbuddyheading">
+
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/uetv1"
+            android:text="Select Sport"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <Spinner
             android:id="@+id/findbuddysportlist"
@@ -60,41 +70,56 @@
             android:layout_marginRight="8dp"
             android:ems="10"
             android:spinnerMode="dialog"
-            app:layout_constraintBottom_toTopOf="@id/findbuddyvenuelist"
+            app:layout_constraintTop_toBottomOf="@id/uetv1"
+            app:layout_constraintBottom_toTopOf="@id/uetv2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
+             />
+
+        <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20sp"
+            android:id="@+id/uetv2"
+            app:layout_constraintTop_toBottomOf="@id/findbuddysportlist"
+            android:text="Select Venue"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            />
         <Spinner
+
             android:id="@+id/findbuddyvenuelist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="20dp"
             android:ems="10"
             android:spinnerMode="dialog"
-            app:layout_constraintBottom_toTopOf="@id/findbuddyselectSlot"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/findbuddysportlist" />
-
-        <Button
-            android:id="@+id/findbuddyselectSlot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"
-            android:text="Select Slot"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/findbuddyvenuelist"
-            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@+id/uetv2"
             />
 
+
+
     </android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/findbuddyselectSlot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="8sp"
+        android:layout_marginEnd="8sp"
+        android:text="Select Slot"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
+        />
 
 </android.support.constraint.ConstraintLayout>

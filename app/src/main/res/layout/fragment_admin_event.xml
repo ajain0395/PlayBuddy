@@ -17,7 +17,6 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="@dimen/material_drawer_account_header_compact"
-        app:layout_constraintBottom_toTopOf="@id/eventtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,6 +44,18 @@
         app:layout_constraintBottom_toTopOf="@id/eventdatetime"
         app:layout_constraintTop_toBottomOf="@+id/eventtitle">
 
+
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/aetv1"
+            android:text="Select Sport"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
         <Spinner
             android:id="@+id/eventsportlist"
             android:layout_width="match_parent"
@@ -53,26 +64,36 @@
             android:layout_marginRight="8dp"
             android:ems="10"
             android:spinnerMode="dialog"
-            app:layout_constraintBottom_toTopOf="@id/eventvenuelist"
+            app:layout_constraintBottom_toTopOf="@id/aetv2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/aetv1" />
 
+        <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20sp"
+            android:id="@+id/aetv2"
+            app:layout_constraintTop_toBottomOf="@id/eventsportlist"
+            android:text="Select Venue"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            />
         <Spinner
             android:id="@+id/eventvenuelist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="20dp"
             android:ems="10"
             android:spinnerMode="dialog"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventsportlist" />
+            app:layout_constraintTop_toBottomOf="@+id/aetv2" />
 
     </android.support.constraint.ConstraintLayout>
 

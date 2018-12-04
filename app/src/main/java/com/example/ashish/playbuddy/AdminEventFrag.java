@@ -434,7 +434,7 @@ public class AdminEventFrag extends Fragment {
 
                     eventsportNameList.add(sport.getSportName());
                     eventsportsList.add(sport);
-                    if(sport.getSportId().equalsIgnoreCase(AdminEventRecyclerViewFrag.selectedEvent.getSportId()))
+                    if(AdminEventRecyclerViewFrag.selectedEvent != null && sport.getSportId().equalsIgnoreCase(AdminEventRecyclerViewFrag.selectedEvent.getSportId()))
                     {
                         selectedSportIndex = count;
                     }

@@ -13,14 +13,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
-        android:text="Venue"
+        android:text="@string/venue"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="@dimen/material_drawer_account_header_compact"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title"
         />
 
     <EditText
@@ -35,32 +34,50 @@
         app:layout_goneMarginStart="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Enter Venue"
+        android:hint="@string/enter_venue"
         app:layout_constraintTop_toBottomOf="@id/heading"
-        app:layout_constraintBottom_toTopOf="@id/venue_sportlist"
+        app:layout_constraintBottom_toTopOf="@id/avspinnercombo"
         />
 
-
-    <Spinner
-        android:id="@+id/venue_sportlist"
-        android:layout_width="match_parent"
+    <android.support.constraint.ConstraintLayout
         android:layout_height="wrap_content"
-        android:spinnerMode="dialog"
+        android:layout_width="match_parent"
         app:layout_constraintBottom_toTopOf="@id/buttonslayoutaddsport"
         app:layout_constraintTop_toBottomOf="@+id/venueEdit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        tools:layout_editor_absoluteX="8dp" />
+        android:id="@+id/avspinnercombo"
+        >
+        <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20sp"
+            android:id="@+id/avtv1"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/select_venue"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            />
+        <Spinner
+            android:id="@+id/venue_sportlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
+            app:layout_constraintTop_toBottomOf="@id/avtv1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:ems="10"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            tools:layout_editor_absoluteX="8dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
 
 
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/buttonslayoutaddsport"
-        app:layout_constraintTop_toBottomOf="@id/venue_sportlist"
+        app:layout_constraintTop_toBottomOf="@id/avspinnercombo"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -70,7 +87,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:text="Save"
+            android:text="@string/save"
             app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -82,7 +99,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
-            android:text="Remove"
+            android:text="@string/remove"
             android:visibility="invisible"
             app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/venuecancle"
@@ -95,7 +112,7 @@
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="32dp"
-            android:text="Cancel"
+            android:text="@string/cancel"
             app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
