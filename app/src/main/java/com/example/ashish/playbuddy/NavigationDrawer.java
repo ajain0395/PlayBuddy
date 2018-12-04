@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -23,11 +24,15 @@ import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
@@ -43,6 +48,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
     public static String accountEmail;
     Uri accountPicture;
     int accountLevel;
+    ImageView imageView;
     Fragment fr;
     //save  header or drawer result
     private AccountHeader headerResult = null;
@@ -107,6 +113,9 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
             fragmentCall(fr);
         }
 
+       //for image display
+       imageView=findViewById(R.id.navigation_image_view);
+
     }
     //built header part
     private void buildHeader(boolean compact, Bundle savedInstanceState) {
@@ -133,7 +142,10 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                         new PrimaryDrawerItem().withName("Venue"),
                         new PrimaryDrawerItem().withName("News"),
                         new PrimaryDrawerItem().withName("Events"),
-                        new SecondaryDrawerItem().withName("Logout")
+                        new SecondaryDrawerItem().withName("Logout").withIdentifier(5),
+                        new DividerDrawerItem(),
+                        new SwitchDrawerItem().withName("Toggle Image").withChecked(true).withOnCheckedChangeListener(onCheckedChangeListener)
+
                 ).withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
                     @Override
                     public boolean onNavigationClickListener(View clickedView) {
@@ -166,6 +178,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 fr=new AdminEventRecyclerViewFrag();
 
                                 break;
+
                             case 5:
                                 indusToast(NavigationDrawer.this,"Admin Logout");
                                 intt.putExtra("logouttoken", 1);
@@ -174,7 +187,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 break;
                             default:
                                 //fr=new AdminSportFrag();
-                                indusToast(NavigationDrawer.this,"Admin Wrong Request");
+                               // indusToast(NavigationDrawer.this,"Admin Wrong Request");
                                 break;
                         }
 
@@ -207,7 +220,10 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                         new PrimaryDrawerItem().withName("Find Buddy"),
                         new SecondaryDrawerItem().withName("About us"),
                         new SecondaryDrawerItem().withName("Contact us"),
-                        new SecondaryDrawerItem().withName("Logout")
+                        new SecondaryDrawerItem().withName("Logout"),
+                        new DividerDrawerItem(),
+                        new SwitchDrawerItem().withName("Toggle Image").withChecked(true).withOnCheckedChangeListener(onCheckedChangeListener)
+
                 ).withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
                     @Override
                     public boolean onNavigationClickListener(View clickedView) {
@@ -265,6 +281,27 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                     }
                 }).withSavedInstance(savedInstanceState).build();
     }
+
+    private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
+            if (drawerItem instanceof Nameable) {
+                if(isChecked) {
+                    imageView.setVisibility(View.VISIBLE);
+                    Log.i("indus", "onChecked toggle: "+isChecked);
+                }
+                else
+                {
+                    imageView.setVisibility(View.INVISIBLE);
+                    Log.i("indus", "onUnChecked toggle : "+isChecked);
+                }
+            } else {
+
+                Log.i("indus", "Unknown in toggle: "+isChecked);
+            }
+        }
+    };
+
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
