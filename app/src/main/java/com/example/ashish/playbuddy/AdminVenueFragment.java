@@ -118,9 +118,16 @@ public class AdminVenueFragment extends Fragment {
                     venue.setVenueId(AdminVenueRecyclerViewfrag.selectedVenue.getVenueId());
                     venue.setSportId(updatedSportsId);
                     venue.setVenueName(updatedVenueName);
-                    venueDatabase.updateVenue(venue);
-                    Toast.makeText(getActivity(), "Updated Venue "+AdminVenueRecyclerViewfrag.selectedVenue.getVenueName()+" Successfully!", Toast.LENGTH_SHORT).show();
-                    callAdminVenueRecyclerViewfrag();
+                    if(venue.getVenueName().length() == 0)
+                    {
+                        Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        venueDatabase.updateVenue(venue);
+                        Toast.makeText(getActivity(), "Updated Venue " + venue.getVenueName() + " Successfully!", Toast.LENGTH_SHORT).show();
+                        AdminVenueRecyclerViewfrag.selectedVenue = null;
+                        callAdminVenueRecyclerViewfrag();
+                    }
                 }
                 else {
                     Venue venue = new Venue();

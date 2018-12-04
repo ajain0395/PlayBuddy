@@ -1,6 +1,7 @@
 package com.example.ashish.playbuddy;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,7 +86,8 @@ public class fragment_news_user_recyclerview extends Fragment {
 
         prepareInterestData(new MyCallbackPrepareNews() {
             @Override
-            public void onCallback() {
+            public void onCallback(List <Interest> values) {
+                interestList = values;
                 prepareNewsData();
             }
         });
@@ -168,6 +171,8 @@ public class fragment_news_user_recyclerview extends Fragment {
 
                         interestList.add(interest);
                     }
+                    mycallback.onCallback(interestList);
+
                     /*System.out.print("***********"+"\n\n\n\n");
                     //for (int i=0;i<interestList.size();i++) {
                         System.out.println(interestList.get(0));
@@ -181,14 +186,13 @@ public class fragment_news_user_recyclerview extends Fragment {
 
                 }
             });
-            mycallback.onCallback();
 
     }
 
 
     //to read data from database and set it to recyclerView Adapter
     private void prepareNewsData() {
-
+        final ProgressDialog pb = new ProgressDialog(getActivity());
         myDatabase.child("news").addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -264,7 +268,7 @@ public class fragment_news_user_recyclerview extends Fragment {
         }
     }
     public interface MyCallbackPrepareNews {
-        void onCallback();
+        void onCallback(List<Interest> values);
     }
 
     @Override
