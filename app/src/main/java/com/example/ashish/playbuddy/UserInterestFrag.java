@@ -119,7 +119,7 @@ public class UserInterestFrag extends Fragment {
                         Interest interest=new Interest(userEmail,sportID,pos);
                         interestDatabase.write(interest,"interest");
                         indusLog("interests updated succesfully");
-                        Toast.makeText(getActivity(), "Interests updated succesfully!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Interests updated successfully!!", Toast.LENGTH_SHORT).show();
 
                     }
                 }

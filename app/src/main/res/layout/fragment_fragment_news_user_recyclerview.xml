@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="News"
-                android:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="50sp"
                 android:textStyle="bold" />
 
