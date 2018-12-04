@@ -68,7 +68,6 @@ public class fragment_news_user_recyclerview extends Fragment {
         Log.i("TAG","passed layout created");
         myDatabase = FirebaseDatabase.getInstance().getReference();
         interestDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        prepareInterestData();
 
     }
 
@@ -82,7 +81,16 @@ public class fragment_news_user_recyclerview extends Fragment {
         //bring data from database.
 
         //prepareInterestData();
-        prepareNewsData();
+
+        prepareInterestData(new MyCallbackPrepareNews() {
+            @Override
+            public void onCallback() {
+                prepareNewsData();
+            }
+        });
+
+
+
         recyclerView = mview.findViewById(R.id.recycler_view_user_news);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -136,7 +144,7 @@ public class fragment_news_user_recyclerview extends Fragment {
     }
 
 
-    private void prepareInterestData() {
+    private void prepareInterestData(final MyCallbackPrepareNews mycallback) {
 
 
             interestDatabaseReference.child("interest").orderByChild("email").equalTo(NavigationDrawer.accountEmail).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -173,6 +181,7 @@ public class fragment_news_user_recyclerview extends Fragment {
 
                 }
             });
+            mycallback.onCallback();
 
     }
 
@@ -205,19 +214,18 @@ public class fragment_news_user_recyclerview extends Fragment {
 
 
                     boolean match = false;
-                    for (int j = 0; j < interestList.size();j++)
-                    {
-                        if(interestList.get(j).getSportId().equalsIgnoreCase(news.getSportId()))
-                        {
-                            match = true;
-                            break;
-                        }
-                    }
-                    if(match)
-                    {
-                        newsList.add(news);
 
-                    }
+                        for (int j = 0; j < interestList.size(); j++) {
+                            if (interestList.get(j).getSportId().equalsIgnoreCase(news.getSportId())) {
+                                match = true;
+                                break;
+                            }
+                        }
+                        if (match) {
+                            newsList.add(news);
+
+                        }
+
                 }
                 newsList.sort(cmp);
                 if(mAdapter!=null)
@@ -255,7 +263,9 @@ public class fragment_news_user_recyclerview extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
+    public interface MyCallbackPrepareNews {
+        void onCallback();
+    }
 
     @Override
     public void onDetach() {

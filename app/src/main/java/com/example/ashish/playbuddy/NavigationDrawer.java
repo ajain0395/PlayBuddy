@@ -102,7 +102,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
 
         } else {
             user(toolbar, savedInstanceState);
-            fr=new UserInterestFrag();
+            fr=new fragment_news_user_recyclerview();
             fragmentCall(fr);
         }
 
@@ -127,7 +127,7 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
-                .withSliderBackgroundColor(Color.parseColor("#FF1C9997"))
+                .withSliderBackgroundColor(Color.parseColor("#3f42a4"))
                 .addDrawerItems(new PrimaryDrawerItem().withName("Sports"),
                         new PrimaryDrawerItem().withName("Venue"),
                         new PrimaryDrawerItem().withName("News"),
@@ -197,13 +197,12 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
         result = new DrawerBuilder().withActivity(this)
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
-                .withSliderBackgroundColor(Color.parseColor("#FF1C9997"))
+                .withSliderBackgroundColor(Color.parseColor("#3f42a4"))
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Interest"),
 
                         new PrimaryDrawerItem().withName("News"),
                         new PrimaryDrawerItem().withName("Events"),
-                        new PrimaryDrawerItem().withName("Play Area"),
                         new PrimaryDrawerItem().withName("Find Buddy"),
                         new SecondaryDrawerItem().withName("About us"),
                         new SecondaryDrawerItem().withName("Contact us"),
@@ -234,24 +233,19 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
                                 fr = new UserEventFrag();
                                 break;
                             case 4:
-                          //      fr = new UserTImeLineRVFrag();
-                                indusLog("play area");
-                                break;
-
-                            case 5:
                                 fr = new UserFindBuddyFrag();
                                 indusLog("find buddy");
                                 break;
-                            case 6:
+                            case 5:
                                 fr=new farg_about_us();
 
                                 indusLog("about us");
                                 break;
-                            case 7:
+                            case 6:
                                 fr=new frag_contact_us();
                                 indusLog("contact us");
                                 break;
-                            case 8:
+                            case 7:
                                 indusToast(NavigationDrawer.this,"User Logout");
                                 intt.putExtra("logouttoken", 1);
                                 startActivity(intt);
