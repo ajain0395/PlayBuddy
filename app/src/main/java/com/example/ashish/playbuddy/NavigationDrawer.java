@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -274,15 +275,56 @@ public class NavigationDrawer extends AppCompatActivity implements AdminNewsFrag
         super.onSaveInstanceState(state);
     }
 
+    boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
 
         if (result != null && result.isDrawerOpen()) {
             result.closeDrawer();
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
         }
     }
+
+
+    /////////////////////////
+/*
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+    //////////////////////*/
+
+
 
 
     public void indusLog(String message)

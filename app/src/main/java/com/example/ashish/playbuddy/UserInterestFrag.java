@@ -67,7 +67,12 @@ public class UserInterestFrag extends Fragment {
         listView=root.findViewById(R.id.interestListview);
         saveInterest=root.findViewById(R.id.insterestSave);
 
-        prepareSportsData();
+        prepareInterestList(new MyCallbackinvokeSportData() {
+            @Override
+            public void onCallback() {
+                prepareSportsData();
+            }
+        });
 
 
 
@@ -136,7 +141,6 @@ public class UserInterestFrag extends Fragment {
 
     //to read data from database and set it to recyclerView Adapter
     private void prepareSportsData() {
-        prepareInterestList();
         myDatabase.child("sports").addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -198,7 +202,7 @@ public class UserInterestFrag extends Fragment {
     }
 
 
-    void prepareInterestList()
+    void prepareInterestList(final MyCallbackinvokeSportData mycallback)
     {
         myDatabase.child("interest").orderByChild("email").equalTo(userEmail).addValueEventListener(new ValueEventListener() {
 
@@ -225,7 +229,9 @@ public class UserInterestFrag extends Fragment {
                         sportsAlreadyInDb.add(positionOfSport);
                     }
                 }
-               // indusLog("sport ls "+sportsAlreadyInDb.get(0));
+                mycallback.onCallback();
+
+                // indusLog("sport ls "+sportsAlreadyInDb.get(0));
 
             }
 
@@ -250,6 +256,9 @@ public class UserInterestFrag extends Fragment {
 
     }
 
+    public interface MyCallbackinvokeSportData {
+        void onCallback();
+    }
 
     public void indusLog(String message)
     {

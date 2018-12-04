@@ -105,18 +105,21 @@ public class AdminNewsFrag extends Fragment {
                     String updatedDesc=description.getText().toString();
                     String updatedTitle=title.getText().toString();
                     String updatedSportsId=newssportsList.get(spinnerPosition).getSportId();
-                    db.updateNews(NewsAdminRecyclerViewFrag.selectedNews.getNewsId(),updatedDesc,updatedTitle,updatedSportsId);
-                    Toast.makeText(getActivity(), "News Updated Successfully!!"+NewsAdminRecyclerViewFrag.selectedNews.getNewsTitle(), Toast.LENGTH_SHORT).show();
-                    callNewsAdminRecyclerViewFrag();
+                    if (updatedDesc.length() == 0 || updatedTitle.length() == 0) {
+                        Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        db.updateNews(NewsAdminRecyclerViewFrag.selectedNews.getNewsId(), updatedDesc, updatedTitle, updatedSportsId);
+                        Toast.makeText(getActivity(), "News Updated Successfully!!" + NewsAdminRecyclerViewFrag.selectedNews.getNewsTitle(), Toast.LENGTH_SHORT).show();
+
+                        callNewsAdminRecyclerViewFrag();
+                    }
                 }
-
-
                 else {
                     spinnerPosition = sportsSpinner.getSelectedItemPosition();
                     String heading = title.getText().toString();
                     String desc = description.getText().toString();
                     String updatedSportsId=newssportsList.get(spinnerPosition).getSportId();
-                    if (heading.length() == 0 && desc.length() == 0) {
+                    if (heading.length() == 0 || desc.length() == 0) {
                         Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
                     } else {
                         News news = new News(heading, desc, new Date(),updatedSportsId);
@@ -229,6 +232,7 @@ public class AdminNewsFrag extends Fragment {
     {
         NewsAdminRecyclerViewFrag fr=new NewsAdminRecyclerViewFrag();
 
+        NewsAdminRecyclerViewFrag.selectedNews = null;
         FragmentManager fm = getFragmentManager();
         classActive = false;
 

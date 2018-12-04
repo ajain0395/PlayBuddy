@@ -37,24 +37,43 @@
         android:inputType="textPersonName"
         android:hint="Enter Title"
         app:layout_constraintTop_toBottomOf="@id/heading"
-        app:layout_constraintBottom_toTopOf="@id/sportlist"
+        app:layout_constraintBottom_toTopOf="@id/newsadminspinner"
         />
 
-
-    <Spinner
-        android:id="@+id/sportlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dialog"
-        app:layout_constraintBottom_toTopOf="@id/description"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/newsadminspinner"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        tools:layout_editor_absoluteX="8dp" />
+        app:layout_constraintBottom_toTopOf="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/antv1"
+            android:text="Select Sport"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <Spinner
+            android:id="@+id/sportlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/antv1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:ems="10"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            tools:layout_editor_absoluteX="8dp" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <EditText
         android:id="@+id/description"
@@ -71,7 +90,7 @@
         android:scrollbars="vertical"
         android:hint="Enter Description"
         app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintTop_toBottomOf="@id/sportlist"
+        app:layout_constraintTop_toBottomOf="@id/newsadminspinner"
         app:layout_constraintBottom_toTopOf="@id/buttonslayoutaddnews"
         />
 

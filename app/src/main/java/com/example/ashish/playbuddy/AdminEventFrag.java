@@ -187,9 +187,14 @@ public class AdminEventFrag extends Fragment {
                         selectedVenueId = eventVenueList.get(venuespinnerPosition).getVenueId();
                         AdminEventRecyclerViewFrag.selectedEvent.setSportId(selectedSportId);
                         AdminEventRecyclerViewFrag.selectedEvent.setVenueId(selectedVenueId);
+                        if (updatedDesc.length() == 0 || updatedTitle.length() == 0) {
+                            Toast.makeText(getActivity(), "Please fill the fields!!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
                         db.updateEvent(AdminEventRecyclerViewFrag.selectedEvent);
                         Toast.makeText(getActivity(), "Event Updated Successfully!!", Toast.LENGTH_SHORT).show();
                         callEventAdminRecyclerViewFrag();
+                        }
                     }
                     else
                     {
@@ -481,6 +486,7 @@ public class AdminEventFrag extends Fragment {
     {
         AdminEventRecyclerViewFrag fr=new AdminEventRecyclerViewFrag();
 
+        AdminEventRecyclerViewFrag.selectedEvent=null;
         FragmentManager fm = getFragmentManager();
         classActive = false;
 

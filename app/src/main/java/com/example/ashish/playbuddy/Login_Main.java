@@ -159,6 +159,7 @@ public class Login_Main extends AppCompatActivity  implements GoogleApiClient.On
 
         if(logouttoken == 1)
         {
+            if(mGoogleSignInClient != null)
             mGoogleSignInClient.revokeAccess();
           //  Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
