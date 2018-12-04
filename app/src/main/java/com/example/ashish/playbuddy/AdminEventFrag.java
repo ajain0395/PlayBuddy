@@ -188,7 +188,7 @@ public class AdminEventFrag extends Fragment {
                         AdminEventRecyclerViewFrag.selectedEvent.setSportId(selectedSportId);
                         AdminEventRecyclerViewFrag.selectedEvent.setVenueId(selectedVenueId);
                         db.updateEvent(AdminEventRecyclerViewFrag.selectedEvent);
-                        Toast.makeText(getActivity(), "Event Updated Successfully!!"+AdminEventRecyclerViewFrag.selectedEvent.getEventId(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Event Updated Successfully!!", Toast.LENGTH_SHORT).show();
                         callEventAdminRecyclerViewFrag();
                     }
                     else
